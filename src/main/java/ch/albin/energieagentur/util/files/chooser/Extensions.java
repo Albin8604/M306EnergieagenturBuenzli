@@ -8,7 +8,8 @@ public enum Extensions {
     PNG,
     JPG,
     BMP,
-    JPEG;
+    JPEG,
+    XML;
 
     public FileChooser.ExtensionFilter getExtensionFilter() {
         return new FileChooser.ExtensionFilter(this.name() + " File", "*." + this.name().toLowerCase());

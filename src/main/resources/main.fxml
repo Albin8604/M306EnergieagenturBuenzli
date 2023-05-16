@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.stage.Stage?>
 
-<Stage fx:controller="ch.albin.energieagentur.controller.MainController" title="Zählerdaten" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<Stage fx:id="stage" fx:controller="ch.albin.energieagentur.controller.MainController" title="Zählerdaten" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <scene>
       <Scene stylesheets="@css/standartStyle.css">
          <root>
