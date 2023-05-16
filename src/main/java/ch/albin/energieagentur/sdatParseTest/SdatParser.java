@@ -14,7 +14,7 @@ import org.xml.sax.SAXException;
 public class SdatParser {
 
     public static void main(String[] args) throws ParserConfigurationException, SAXException {
-        String filePath = "C:\\Users\\jirof\\gitprojects\\M306EnergieagenturBuenzli\\src\\main\\resources\\SDAT-Files\\20190313_093127_12X-0000001216-O_E66_12X-LIPPUNEREM-T_ESLEVU121963_-279617263.xml";
+        String filePath = "src/main/resources/SDAT-Files/20190313_093127_12X-0000001216-O_E66_12X-LIPPUNEREM-T_ESLEVU121963_-279617263.xml";
         try {
             File file = new File(filePath);
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
