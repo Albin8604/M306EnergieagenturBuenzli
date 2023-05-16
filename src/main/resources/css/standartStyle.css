@@ -9,3 +9,9 @@
 
      */
 }
+
+.skipButton{
+    -fx-pref-width: 40;
+    -fx-max-width: 40;
+    -fx-min-width: 40;
+}

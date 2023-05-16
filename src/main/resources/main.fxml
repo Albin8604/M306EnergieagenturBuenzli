@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Scene?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.stage.Stage?>
+
+<Stage fx:controller="ch.albin.energieagentur.controller.MainController" title="Zählerdaten" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+   <scene>
+      <Scene stylesheets="@css/standartStyle.css">
+         <root>
+            <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="670.0" prefWidth="1200.0">
+               <top>
+                  <BorderPane BorderPane.alignment="CENTER">
+                     <left>
+                        <VBox spacing="5.0" BorderPane.alignment="CENTER">
+                           <children>
+                              <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#selectSDATFolder" text="Select SDAT Folder" />
+                              <Button layoutX="10.0" layoutY="10.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#selectESLFolder" text="Select ESL Folder" />
+                           </children>
+                        </VBox>
+                     </left>
+                     <right>
+                        <HBox BorderPane.alignment="CENTER">
+                           <children>
+                              <ComboBox fx:id="valuesComboBox" prefWidth="150.0" />
+                           </children>
+                        </HBox>
+                     </right>
+                     <center>
+                        <BorderPane BorderPane.alignment="CENTER">
+                           <left>
+                              <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" BorderPane.alignment="CENTER">
+                                 <center>
+                                    <HBox BorderPane.alignment="CENTER">
+                                       <children>
+                                          <Label text="From: " />
+                                          <DatePicker fx:id="fromDatePicker" />
+                                       </children>
+                                       <BorderPane.margin>
+                                          <Insets left="5.0" right="5.0" />
+                                       </BorderPane.margin>
+                                    </HBox>
+                                 </center>
+                                 <left>
+                                    <HBox spacing="10.0" BorderPane.alignment="CENTER">
+                                       <children>
+                                          <Button mnemonicParsing="false" onAction="#fromMonthBackward" styleClass="skipButton" text="&lt;&lt;" />
+                                          <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#fromDayBackward" styleClass="skipButton" text="&lt;" />
+                                       </children>
+                                    </HBox>
+                                 </left>
+                                 <right>
+                                    <HBox spacing="10.0" BorderPane.alignment="CENTER">
+                                       <children>
+                                          <Button mnemonicParsing="false" onAction="#fromDayForward" styleClass="skipButton" text="&gt;" />
+                                          <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#fromMonthForward" styleClass="skipButton" text="&gt;&gt;" />
+                                       </children>
+                                    </HBox>
+                                 </right>
+                                 <BorderPane.margin>
+                                    <Insets left="5.0" right="5.0" />
+                                 </BorderPane.margin>
+                              </BorderPane>
+                           </left>
+                           <right>
+                              <BorderPane BorderPane.alignment="CENTER">
+                                 <left>
+                                    <HBox spacing="10.0" BorderPane.alignment="CENTER">
+                                       <children>
+                                          <Button mnemonicParsing="false" onAction="#toMonthBackward" styleClass="skipButton" text="&lt;&lt;" />
+                                          <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#toDayBackward" styleClass="skipButton" text="&lt;" />
+                                       </children>
+                                       <BorderPane.margin>
+                                          <Insets />
+                                       </BorderPane.margin>
+                                    </HBox>
+                                 </left>
+                                 <center>
+                                    <HBox BorderPane.alignment="CENTER">
+                                       <children>
+                                          <Label text="To: " />
+                                          <DatePicker fx:id="toDatePicker" />
+                                       </children>
+                                       <BorderPane.margin>
+                                          <Insets left="5.0" right="5.0" />
+                                       </BorderPane.margin>
+                                    </HBox>
+                                 </center>
+                                 <right>
+                                    <HBox spacing="10.0" BorderPane.alignment="CENTER">
+                                       <children>
+                                          <Button mnemonicParsing="false" onAction="#toDayForward" styleClass="skipButton" text="&gt;" />
+                                          <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#toMonthForward" styleClass="skipButton" text="&gt;&gt;" />
+                                       </children>
+                                    </HBox>
+                                 </right>
+                                 <BorderPane.margin>
+                                    <Insets left="5.0" right="5.0" />
+                                 </BorderPane.margin>
+                              </BorderPane>
+                           </right>
+                           <bottom>
+                              <BorderPane maxWidth="200.0" BorderPane.alignment="CENTER">
+                                 <left>
+                                    <BorderPane BorderPane.alignment="CENTER">
+                                       <center>
+                                          <Label text="Day" BorderPane.alignment="CENTER">
+                                             <BorderPane.margin>
+                                                <Insets left="5.0" right="5.0" />
+                                             </BorderPane.margin>
+                                          </Label>
+                                       </center>
+                                       <right>
+                                          <Button onAction="#dayForward" mnemonicParsing="false" styleClass="skipButton" text="&gt;" BorderPane.alignment="CENTER" />
+                                       </right>
+                                       <left>
+                                          <Button onAction="#dayBackward" mnemonicParsing="false" styleClass="skipButton" text="&lt;" BorderPane.alignment="CENTER" />
+                                       </left>
+                                       <BorderPane.margin>
+                                          <Insets left="5.0" right="5.0" />
+                                       </BorderPane.margin>
+                                    </BorderPane>
+                                 </left>
+                                 <right>
+                                    <BorderPane BorderPane.alignment="CENTER">
+                                       <center>
+                                          <Label text="Month" BorderPane.alignment="CENTER">
+                                             <BorderPane.margin>
+                                                <Insets left="5.0" right="5.0" />
+                                             </BorderPane.margin>
+                                          </Label>
+                                       </center>
+                                       <right>
+                                          <Button onAction="#monthForward" mnemonicParsing="false" styleClass="skipButton" text="&gt;" BorderPane.alignment="CENTER" />
+                                       </right>
+                                       <left>
+                                          <Button onAction="#monthBackward" mnemonicParsing="false" styleClass="skipButton" text="&lt;" BorderPane.alignment="CENTER" />
+                                       </left>
+                                       <BorderPane.margin>
+                                          <Insets left="5.0" right="5.0" />
+                                       </BorderPane.margin>
+                                    </BorderPane>
+                                 </right>
+                                 <BorderPane.margin>
+                                    <Insets top="15.0" />
+                                 </BorderPane.margin>
+                              </BorderPane>
+                           </bottom>
+                        </BorderPane>
+                     </center>
+                  </BorderPane>
+               </top>
+               <center>
+                  <LineChart fx:id="dataChart" BorderPane.alignment="CENTER">
+                    <xAxis>
+                      <CategoryAxis side="BOTTOM" />
+                    </xAxis>
+                    <yAxis>
+                      <NumberAxis side="LEFT" />
+                    </yAxis>
+                  </LineChart>
+               </center>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </BorderPane>
+         </root>
+      </Scene>
+   </scene>
+</Stage>
