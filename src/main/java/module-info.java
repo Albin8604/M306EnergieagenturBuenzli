@@ -8,13 +8,13 @@ module ICTSkills {
     requires com.fasterxml.jackson.databind;
     requires com.opencsv;
 
-    opens ch.albin.ictskills.model;
-    opens ch.albin.ictskills.controller to javafx.fxml;
+    opens ch.albin.energieagentur.model;
+    opens ch.albin.energieagentur.controller to javafx.fxml;
 
-    exports ch.albin.ictskills to javafx.graphics;
-    exports ch.albin.ictskills.controller to javafx.fxml;
+    exports ch.albin.energieagentur to javafx.graphics;
+    exports ch.albin.energieagentur.controller to javafx.fxml;
 
-    exports ch.albin.ictskills.model.tableModel;
-    exports ch.albin.ictskills.model;
-    exports ch.albin.ictskills.util.files;
+    exports ch.albin.energieagentur.model.tableModel;
+    exports ch.albin.energieagentur.model;
+    exports ch.albin.energieagentur.util.files;
 }

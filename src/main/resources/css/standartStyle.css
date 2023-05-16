@@ -1,8 +1,8 @@
-.invalid-input{
-    -fx-border-color: red ;
+.invalid-input {
+    -fx-border-color: red;
 }
 
-.column-header{
+.column-header {
     /*
     -fx-rotate: 90;
     -fx-pref-height: 100;
