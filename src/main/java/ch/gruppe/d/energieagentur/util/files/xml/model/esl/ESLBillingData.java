@@ -2,6 +2,7 @@ package ch.gruppe.d.energieagentur.util.files.xml.model.esl;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -10,7 +11,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "ESLBillingData")
 public class ESLBillingData {
+    @XmlElement(name = "Header",type = Header.class)
     private Header header;
+
+    @XmlElement(name = "Meter",type = Meter.class)
     private Meter meter;
 
     public ESLBillingData() {
@@ -37,5 +41,13 @@ public class ESLBillingData {
     public ESLBillingData setMeter(Meter meter) {
         this.meter = meter;
         return this;
+    }
+
+    @Override
+    public String toString() {
+        return "ESLBillingData{" +
+                "header=" + header +
+                ", meter=" + meter +
+                '}';
     }
 }

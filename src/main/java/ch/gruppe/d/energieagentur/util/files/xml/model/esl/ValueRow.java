@@ -74,4 +74,14 @@ public class ValueRow {
         this.status = status;
         return this;
     }
+
+    @Override
+    public String toString() {
+        return "ValueRow{" +
+                "obis='" + obis + '\'' +
+                ", valueTimeStamp=" + valueTimeStamp +
+                ", value=" + value +
+                ", status='" + status + '\'' +
+                '}';
+    }
 }

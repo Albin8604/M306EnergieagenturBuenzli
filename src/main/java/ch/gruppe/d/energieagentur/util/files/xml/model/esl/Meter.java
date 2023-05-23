@@ -4,6 +4,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -54,5 +55,14 @@ public class Meter {
     public Meter setTimePeriodList(List<TimePeriod> timePeriodList) {
         this.timePeriodList = timePeriodList;
         return this;
+    }
+
+    @Override
+    public String toString() {
+        return "Meter{" +
+                "factoryNo='" + factoryNo + '\'' +
+                ", internalNo='" + internalNo + '\'' +
+                ", timePeriodList=" + Arrays.toString(timePeriodList.toArray()) +
+                '}';
     }
 }

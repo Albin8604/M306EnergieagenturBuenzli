@@ -8,6 +8,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -46,5 +47,13 @@ public class TimePeriod {
     public TimePeriod setValueRowList(List<ValueRow> valueRowList) {
         this.valueRowList = valueRowList;
         return this;
+    }
+
+    @Override
+    public String toString() {
+        return "TimePeriod{" +
+                "end=" + end +
+                ", valueRowList=" + Arrays.toString(valueRowList.toArray()) +
+                '}';
     }
 }
