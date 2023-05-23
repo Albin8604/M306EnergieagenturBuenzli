@@ -42,6 +42,7 @@ public class ChooserManager {
 
         return file;
     }
+
     public static File getChoosedOpenFolder(Stage stage) {
         DirectoryChooser directoryChooser = new DirectoryChooser();
 
@@ -53,6 +54,7 @@ public class ChooserManager {
 
         return file;
     }
+
     public static List<File> getChoosedOpenFiles(Stage stage, Extensions... extensions) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().addAll(

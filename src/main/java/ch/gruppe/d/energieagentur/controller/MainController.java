@@ -14,11 +14,11 @@ import java.time.LocalDateTime;
 /**
  * This class is used as a Controller for the Main View
  */
-public class MainController extends Controller{
+public class MainController extends Controller {
     public ComboBox<ValuesModel> valuesComboBox;
     public DatePicker fromDatePicker;
     public DatePicker toDatePicker;
-    public LineChart<LocalDateTime,Number> dataChart;
+    public LineChart<LocalDateTime, Number> dataChart;
     public Stage stage;
     public BorderPane mainBorderPane;
 
@@ -37,7 +37,7 @@ public class MainController extends Controller{
     /**
      * This Method updates the diagram or changes it completely
      */
-    private void updateDiagram(){
+    private void updateDiagram() {
 
     }
 
