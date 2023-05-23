@@ -1,10 +1,14 @@
 package ch.albin.energieagentur.controller;
 
+import ch.albin.energieagentur.model.uiModel.ValuesModel;
 import ch.albin.energieagentur.util.files.chooser.ChooserManager;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.chart.LineChart;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 import java.io.File;
@@ -14,11 +18,12 @@ import java.time.LocalDateTime;
  * This class is used as a Controller for the Main View
  */
 public class MainController extends Controller{
-    public ComboBox valuesComboBox;
+    public ComboBox<ValuesModel> valuesComboBox;
     public DatePicker fromDatePicker;
     public DatePicker toDatePicker;
     public LineChart<LocalDateTime,Number> dataChart;
     public Stage stage;
+    public BorderPane mainBorderPane;
 
     private LocalDateTime selectedTime = LocalDateTime.now();
 
@@ -28,6 +33,14 @@ public class MainController extends Controller{
      */
     @Override
     public void init() {
+        valuesComboBox.setItems(VALUES_MODEL_OBSERVABLE_LIST);
+        valuesComboBox.getSelectionModel().selectFirst();
+    }
+
+    /**
+     * This Method updates the diagram or changes it completely
+     */
+    private void updateDiagram(){
 
     }
 

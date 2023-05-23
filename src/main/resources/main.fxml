@@ -18,7 +18,7 @@
    <scene>
       <Scene stylesheets="@css/standartStyle.css">
          <root>
-            <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="670.0" prefWidth="1200.0">
+            <BorderPane fx:id="mainBorderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="670.0" prefWidth="1200.0">
                <top>
                   <BorderPane BorderPane.alignment="CENTER">
                      <left>
