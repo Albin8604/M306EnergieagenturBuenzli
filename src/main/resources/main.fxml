@@ -14,11 +14,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.stage.Stage?>
 
-<Stage fx:controller="ch.albin.energieagentur.controller.MainController" title="Zählerdaten" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<Stage fx:id="stage" fx:controller="ch.albin.energieagentur.controller.MainController" title="Zählerdaten" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <scene>
       <Scene stylesheets="@css/standartStyle.css">
          <root>
-            <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="670.0" prefWidth="1200.0">
+            <BorderPane fx:id="mainBorderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="670.0" prefWidth="1200.0">
                <top>
                   <BorderPane BorderPane.alignment="CENTER">
                      <left>

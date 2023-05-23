@@ -1,4 +1,4 @@
-package ch.albin.energieagentur.model.tableModel;
+package ch.albin.energieagentur.model.uiModel;
 
 public class TemplateEventTableModel {
     private String round;

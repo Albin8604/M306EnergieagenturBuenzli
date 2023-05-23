@@ -14,7 +14,7 @@ module ICTSkills {
     exports ch.albin.energieagentur to javafx.graphics;
     exports ch.albin.energieagentur.controller to javafx.fxml;
 
-    exports ch.albin.energieagentur.model.tableModel;
+    exports ch.albin.energieagentur.model.uiModel;
     exports ch.albin.energieagentur.model;
     exports ch.albin.energieagentur.util.files;
 }
