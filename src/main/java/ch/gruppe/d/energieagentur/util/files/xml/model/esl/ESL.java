@@ -10,17 +10,17 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "ESLBillingData")
-public class ESLBillingData {
+public class ESL {
     @XmlElement(name = "Header",type = Header.class)
     private Header header;
 
     @XmlElement(name = "Meter",type = Meter.class)
     private Meter meter;
 
-    public ESLBillingData() {
+    public ESL() {
     }
 
-    public ESLBillingData(Header header, Meter meter) {
+    public ESL(Header header, Meter meter) {
         this.header = header;
         this.meter = meter;
     }
@@ -29,7 +29,7 @@ public class ESLBillingData {
         return header;
     }
 
-    public ESLBillingData setHeader(Header header) {
+    public ESL setHeader(Header header) {
         this.header = header;
         return this;
     }
@@ -38,7 +38,7 @@ public class ESLBillingData {
         return meter;
     }
 
-    public ESLBillingData setMeter(Meter meter) {
+    public ESL setMeter(Meter meter) {
         this.meter = meter;
         return this;
     }

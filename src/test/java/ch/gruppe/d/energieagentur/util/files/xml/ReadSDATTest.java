@@ -11,21 +11,23 @@ import javax.xml.bind.Unmarshaller;
 import java.io.File;
 import java.net.URISyntaxException;
 import java.util.Objects;
+
 /**
- * This class is used to test the ESL xml parsing
+ * This class is used to test the SDAT xml parsing
  */
-public class ReadESLTest {
-    private static File eslFile;
+public class ReadSDATTest {
+    private static File sdatFile;
 
     @BeforeAll
     public static void setup() throws URISyntaxException {
-       eslFile = new File(Objects.requireNonNull(ReadESLTest.class.getClassLoader().getResource("ESL-Files/EdmRegisterWertExport_20190503_eslevu_20190503050535.xml")).toURI());
+        sdatFile = new File(Objects.requireNonNull(ReadESLTest.class.getClassLoader().getResource("SDAT-Files/20190313_093127_12X-0000001216-O_E66_12X-LIPPUNEREM-T_ESLEVU121963_-279617263.xml")).toURI());
     }
+
     @Test
     public void readESLFile() throws JAXBException {
         JAXBContext context = JAXBContext.newInstance(ESL.class);
         Unmarshaller mar = context.createUnmarshaller();
-        ESL esl = (ESL) mar.unmarshal(eslFile);
+        ESL esl = (ESL) mar.unmarshal(sdatFile);
 
         Assertions.assertNotNull(esl.getHeader());
         Assertions.assertNotNull(esl.getMeter());

@@ -2,7 +2,11 @@ package ch.gruppe.d.energieagentur.controller;
 
 import ch.gruppe.d.energieagentur.model.uiModel.ValuesModel;
 import ch.gruppe.d.energieagentur.util.files.chooser.ChooserManager;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.layout.BorderPane;
@@ -10,11 +14,13 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.time.LocalDateTime;
+import java.util.Map;
 
 /**
  * This class is used as a Controller for the Main View
  */
 public class MainController extends Controller {
+    private int lastValue = 1;
     public ComboBox<ValuesModel> valuesComboBox;
     public DatePicker fromDatePicker;
     public DatePicker toDatePicker;
@@ -32,13 +38,39 @@ public class MainController extends Controller {
     public void init() {
         valuesComboBox.setItems(VALUES_MODEL_OBSERVABLE_LIST);
         valuesComboBox.getSelectionModel().selectFirst();
+
+        valuesComboBox.valueProperty().addListener((observableValue, valuesModel, t1) -> updateDiagram());
     }
 
     /**
      * This Method updates the diagram or changes it completely
      */
     private void updateDiagram() {
+        final int value = valuesComboBox.getSelectionModel().getSelectedItem().getValue();
 
+        if (lastValue == value){
+            return;
+        }
+
+        switch (value){
+            case 1:
+                break;
+            case 2:
+                break;
+            default:
+
+
+                final CategoryAxis xAxis = new CategoryAxis();
+                final NumberAxis yAxis = new NumberAxis();
+
+                xAxis.setLabel("Datum");
+                yAxis.setLabel("kWh");
+
+
+                break;
+        }
+
+        lastValue = value;
     }
 
     /**
