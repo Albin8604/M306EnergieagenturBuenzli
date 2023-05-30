@@ -1,25 +1,40 @@
 package ch.gruppe.d.energieagentur.controller;
 
 import ch.gruppe.d.energieagentur.model.uiModel.ValuesModel;
+import ch.gruppe.d.energieagentur.util.Date.Formatter;
 import ch.gruppe.d.energieagentur.util.files.chooser.ChooserManager;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import ch.gruppe.d.energieagentur.util.files.xml.model.esl.ESL;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
 import java.io.File;
+import java.math.BigDecimal;
+import java.net.URISyntaxException;
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.TreeMap;
 
 /**
  * This class is used as a Controller for the Main View
  */
 public class MainController extends Controller {
+    private static final CategoryAxis X_AXIS = new CategoryAxis();
+    private static final NumberAxis Y_AXIS = new NumberAxis();
+    private static final LineChart<String, Number> NEW_CHART =
+            new LineChart<>(X_AXIS, Y_AXIS);
+    private File eslFolder = null;
     private int lastValue = 1;
     public ComboBox<ValuesModel> valuesComboBox;
     public DatePicker fromDatePicker;
@@ -39,7 +54,14 @@ public class MainController extends Controller {
         valuesComboBox.setItems(VALUES_MODEL_OBSERVABLE_LIST);
         valuesComboBox.getSelectionModel().selectFirst();
 
-        valuesComboBox.valueProperty().addListener((observableValue, valuesModel, t1) -> updateDiagram());
+        X_AXIS.setLabel("Datum");
+        Y_AXIS.setLabel("kWh");
+
+        valuesComboBox.valueProperty().addListener((observableValue, valuesModel, t1) -> {
+            System.out.println(valuesComboBox.getSelectionModel().getSelectedItem().getName());
+            updateDiagram();
+        });
+        updateDiagram();
     }
 
     /**
@@ -48,29 +70,82 @@ public class MainController extends Controller {
     private void updateDiagram() {
         final int value = valuesComboBox.getSelectionModel().getSelectedItem().getValue();
 
-        if (lastValue == value){
+        if (lastValue == value) {
             return;
         }
 
-        switch (value){
+        final XYChart.Series series = new XYChart.Series();
+
+        switch (value) {
             case 1:
                 break;
             case 2:
                 break;
             default:
+                series.setName("Zählerstände");
 
+                final List<ESL> eslList = getAllESLData(null);
+                final Map<LocalDateTime, BigDecimal> diagramData = new TreeMap<>();
 
-                final CategoryAxis xAxis = new CategoryAxis();
-                final NumberAxis yAxis = new NumberAxis();
+                eslList.forEach(esl -> {
+                    esl.getMeter().getTimePeriodList().forEach(timePeriod -> {
+                        timePeriod.getValueRowList().forEach(valueRow -> {
+                            diagramData.put(valueRow.getValueTimeStamp() == null ?
+                                            timePeriod.getEnd() :
+                                            valueRow.getValueTimeStamp(),
+                                    valueRow.getValue());
+                        });
+                    });
+                });
 
-                xAxis.setLabel("Datum");
-                yAxis.setLabel("kWh");
-
+                for (Map.Entry<LocalDateTime, BigDecimal> localDateTimeBigDecimalEntry : diagramData.entrySet()) {
+                    series.getData().add(new XYChart.Data(
+                            Formatter.formatDateTime(localDateTimeBigDecimalEntry.getKey()),
+                            localDateTimeBigDecimalEntry.getValue()
+                    ));
+                }
 
                 break;
         }
 
+        NEW_CHART.getData().clear();
+        NEW_CHART.getData().add(series);
+
         lastValue = value;
+    }
+
+    /**
+     * Converts all ESL Files into ESL model classes
+     *
+     * @param folder folder of the ESL files
+     * @return all ESL model classes as list
+     */
+    private List<ESL> getAllESLData(File folder) {
+        if (folder == null) {
+            try {
+                return getAllESLData(new File(Objects.requireNonNull(MainController.class.getClassLoader().getResource("ESL-Files")).toURI()));
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
+        }
+
+        JAXBContext context = null;
+        try {
+            context = JAXBContext.newInstance(ESL.class);
+            Unmarshaller mar = context.createUnmarshaller();
+
+            return Arrays.stream(folder.listFiles()).map(file -> {
+                try {
+                    return (ESL) mar.unmarshal(file);
+                } catch (JAXBException e) {
+                    throw new RuntimeException(e);
+                }
+            }).toList();
+
+
+        } catch (JAXBException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -85,8 +160,8 @@ public class MainController extends Controller {
      * This Method opens the Choose Dialog for choosing an ESL-Folder
      */
     public void selectESLFolder() {
-        File folder = ChooserManager.getChoosedOpenFolder(stage);
-        System.out.println(folder.getAbsolutePath());
+        eslFolder = ChooserManager.getChoosedOpenFolder(stage);
+        updateDiagram();
     }
 
     /**
