@@ -16,6 +16,7 @@ import org.xml.sax.SAXException;
 public class SdatParser {
 
     public SdatParser(String filename) {
+        //Sets Up the DocumentBuilderFactory and dataElement
         try {
             // String filePath = "src/main/resources/SDAT-Files/20190313_093127_12X-0000001216-O_E66_12X-LIPPUNEREM-T_ESLEVU121963_-279617263.xml";
             String filePath = "src/main/resources/SDAT-Files/" + filename;
@@ -37,15 +38,16 @@ public class SdatParser {
         }
     }
 
+    //dataElement for reference in xml file
     private Element dataElement;
 
-
+    //Gets The DocumentID from the sdat file
     public String getDocumentID() {
         //DocumentID
         return dataElement.getElementsByTagName("rsm:DocumentID").item(0).getTextContent();
     }
 
-
+    //Gets The Observations from the sdat file
     public Map<String, Integer> getObservation() {
         //Observation
 
@@ -63,6 +65,7 @@ public class SdatParser {
         return observations;
     }
 
+    //Gets The Resolution from the sdat file
     public String getResolution() {
         //resolution
         // Retrieve the Sender element within the HeaderInformation
@@ -73,16 +76,19 @@ public class SdatParser {
         return resolution + "" + timeUnit;
     }
 
+    //Gets The Interval from the sdat file for use in getIntervalStartTime and getIntervalEndTime
     private Element getInterval() {
         //Interval
         return (Element) dataElement.getElementsByTagName("rsm:Interval").item(0);
     }
 
+    //Gets The Interval StartTime from the sdat file
     public String getIntervalStartTime() {
         //StartDateTime
         return getInterval().getElementsByTagName("rsm:StartDateTime").item(0).getTextContent();
     }
 
+    //Gets The Interval EndTime from the sdat file
     public String getIntervalEndTime() {
         //EndDateTime
         return getInterval().getElementsByTagName("rsm:EndDateTime").item(0).getTextContent();
