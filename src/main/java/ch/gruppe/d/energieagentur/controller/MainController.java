@@ -32,7 +32,7 @@ import java.util.TreeMap;
 public class MainController extends Controller {
     private static final CategoryAxis X_AXIS = new CategoryAxis();
     private static final NumberAxis Y_AXIS = new NumberAxis();
-    private static final LineChart<String, Number> NEW_CHART =
+    private static final LineChart<String, Number> DATA_CHART =
             new LineChart<>(X_AXIS, Y_AXIS);
     private File eslFolder = null;
     private File sdatFolder = null;
@@ -40,7 +40,6 @@ public class MainController extends Controller {
     public ComboBox<ValuesModel> valuesComboBox;
     public DatePicker fromDatePicker;
     public DatePicker toDatePicker;
-    public LineChart<String, Number> dataChart;
     public Stage stage;
     public BorderPane mainBorderPane;
 
@@ -109,8 +108,10 @@ public class MainController extends Controller {
                 break;
         }
 
-        dataChart.getData().clear();
-        dataChart.getData().add(series);
+        DATA_CHART.getData().clear();
+        DATA_CHART.getData().add(series);
+
+        mainBorderPane.setCenter(DATA_CHART);
 
         lastValue = value;
     }
