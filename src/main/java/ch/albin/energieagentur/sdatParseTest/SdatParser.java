@@ -15,11 +15,10 @@ import org.xml.sax.SAXException;
 
 public class SdatParser {
 
-    public SdatParser(String filename) {
+    public SdatParser(String filePath) {
         //Sets Up the DocumentBuilderFactory and dataElement
         try {
             // String filePath = "src/main/resources/SDAT-Files/20190313_093127_12X-0000001216-O_E66_12X-LIPPUNEREM-T_ESLEVU121963_-279617263.xml";
-            String filePath = "src/main/resources/SDAT-Files/" + filename;
 
             // Create a File object with the specified file path
             File file = new File(filePath);
