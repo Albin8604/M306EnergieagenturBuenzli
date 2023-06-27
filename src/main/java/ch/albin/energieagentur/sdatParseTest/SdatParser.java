@@ -38,7 +38,7 @@ public class SdatParser {
     }
 
     //dataElement for reference in xml file
-    private Element dataElement;
+    private final Element dataElement;
 
     //Gets The DocumentID from the sdat file
     public String getDocumentID() {
@@ -72,7 +72,7 @@ public class SdatParser {
         String resolution = resElement.getElementsByTagName("rsm:Resolution").item(0).getTextContent();
         String timeUnit = resElement.getElementsByTagName("rsm:Unit").item(0).getTextContent();
 
-        return resolution + "" + timeUnit;
+        return resolution + timeUnit;
     }
 
     //Gets The Interval from the sdat file for use in getIntervalStartTime and getIntervalEndTime

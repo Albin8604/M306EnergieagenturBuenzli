@@ -28,7 +28,7 @@ public class diagrammtest extends Application {
 
         lineChart.setTitle("Sdat visual");
         //defining a series
-        Series<Number, Number> series = new Series<Number, Number>();
+        Series<Number, Number> series = new Series<>();
         series.setName(sdatParser.getDocumentID());
         //populating the series with data
         System.out.println(sdatParser.getObservation().size());
