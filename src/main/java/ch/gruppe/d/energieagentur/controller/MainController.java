@@ -35,11 +35,12 @@ public class MainController extends Controller {
     private static final LineChart<String, Number> NEW_CHART =
             new LineChart<>(X_AXIS, Y_AXIS);
     private File eslFolder = null;
+    private File sdatFolder = null;
     private int lastValue = 1;
     public ComboBox<ValuesModel> valuesComboBox;
     public DatePicker fromDatePicker;
     public DatePicker toDatePicker;
-    public LineChart<LocalDateTime, Number> dataChart;
+    public LineChart<String, Number> dataChart;
     public Stage stage;
     public BorderPane mainBorderPane;
 
@@ -99,7 +100,7 @@ public class MainController extends Controller {
                 });
 
                 for (Map.Entry<LocalDateTime, BigDecimal> localDateTimeBigDecimalEntry : diagramData.entrySet()) {
-                    series.getData().add(new XYChart.Data(
+                    series.getData().add(new XYChart.Data<>(
                             Formatter.formatDateTime(localDateTimeBigDecimalEntry.getKey()),
                             localDateTimeBigDecimalEntry.getValue()
                     ));
@@ -108,8 +109,8 @@ public class MainController extends Controller {
                 break;
         }
 
-        NEW_CHART.getData().clear();
-        NEW_CHART.getData().add(series);
+        dataChart.getData().clear();
+        dataChart.getData().add(series);
 
         lastValue = value;
     }
@@ -152,8 +153,8 @@ public class MainController extends Controller {
      * This Method opens the Choose Dialog for choosing a SDAT-Folder
      */
     public void selectSDATFolder() {
-        File folder = ChooserManager.getChoosedOpenFolder(stage);
-        System.out.println(folder.getAbsolutePath());
+        sdatFolder = ChooserManager.getChoosedOpenFolder(stage);
+        updateDiagram();
     }
 
     /**

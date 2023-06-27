@@ -20,6 +20,5 @@ module ICTSkills {
     exports ch.gruppe.d.energieagentur.model;
     exports ch.gruppe.d.energieagentur.util.files;
     exports ch.gruppe.d.energieagentur.util.files.xml.model.esl;
-    exports ch.gruppe.d.energieagentur.util.files.xml.model.sdat;
     exports ch.gruppe.d.energieagentur.util.files.xml.model.adapter;
 }
