@@ -15,6 +15,7 @@ module ICTSkills {
 
     exports ch.gruppe.d.energieagentur to javafx.graphics;
     exports ch.gruppe.d.energieagentur.controller to javafx.fxml;
+    exports ch.gruppe.d.energieagentur.model.export.json to com.fasterxml.jackson.databind;
 
     exports ch.gruppe.d.energieagentur.model.uiModel;
     exports ch.gruppe.d.energieagentur.model;

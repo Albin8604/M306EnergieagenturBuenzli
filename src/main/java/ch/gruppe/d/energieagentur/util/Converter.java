@@ -50,6 +50,10 @@ public class Converter {
         return localDateTime.format(DateTimeFormatter.ofPattern(DATE_TIME_FORMAT));
     }
 
+    public static long convertLocalDateTimeToMillis(LocalDateTime localDateTime){
+        return localDateTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+    }
+
     public static boolean convertByteToBoolean(byte b) {
         return b == 1;
     }
