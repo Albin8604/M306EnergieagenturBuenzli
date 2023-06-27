@@ -15,13 +15,13 @@ import org.xml.sax.SAXException;
 
 public class SdatParser {
 
-    public SdatParser(String filePath) {
+    public SdatParser(String filename) {
         //Sets Up the DocumentBuilderFactory and dataElement
         try {
             // String filePath = "src/main/resources/SDAT-Files/20190313_093127_12X-0000001216-O_E66_12X-LIPPUNEREM-T_ESLEVU121963_-279617263.xml";
 
             // Create a File object with the specified file path
-            File file = new File(filePath);
+            File file = new File("src/main/resources/SDAT-Files/"+filename);
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder db = dbf.newDocumentBuilder();
             Document document = db.parse(file);
@@ -47,11 +47,11 @@ public class SdatParser {
     }
 
     //Gets The Observations from the sdat file
-    public Map<String, Integer> getObservation() {
+    public Map<Integer,Double> getObservation() {
         //Observation
 
         //String is Volume and Integer is Sequence
-        Map<String, Integer> observations = new HashMap<>();
+        Map<Integer, Double> observations = new HashMap<>();
 
         // Retrieve a list of Observation elements within the MeteringData
         NodeList oList = dataElement.getElementsByTagName("rsm:Observation");
@@ -59,7 +59,7 @@ public class SdatParser {
 
         for (int i = 0; i < oList.getLength(); i++) {
             Element oElement = (Element) oList.item(i);
-            observations.put(oElement.getElementsByTagName("rsm:Volume").item(0).getTextContent(), Integer.parseInt(oElement.getElementsByTagName("rsm:Sequence").item(0).getTextContent()));
+            observations.put(Integer.parseInt(oElement.getElementsByTagName("rsm:Sequence").item(0).getTextContent()), Double.parseDouble(oElement.getElementsByTagName("rsm:Volume").item(0).getTextContent()));
         }
         return observations;
     }
