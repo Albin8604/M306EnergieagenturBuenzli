@@ -5,6 +5,7 @@ import ch.gruppe.d.energieagentur.util.Date.DateHelper;
 import ch.gruppe.d.energieagentur.util.Date.Formatter;
 import ch.gruppe.d.energieagentur.util.files.chooser.ChooserManager;
 import ch.gruppe.d.energieagentur.util.files.xml.model.esl.ESL;
+import javafx.event.ActionEvent;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
@@ -249,5 +250,19 @@ public class MainController extends Controller {
      */
     public void monthBackward() {
         selectedTime = selectedTime.minusMonths(1);
+    }
+
+    /**
+     * This method exports the data into JSON
+     */
+    public void exportJson() {
+
+    }
+
+    /**
+     * This method exports the data into CSV
+     */
+    public void exportCSV() {
+
     }
 }
