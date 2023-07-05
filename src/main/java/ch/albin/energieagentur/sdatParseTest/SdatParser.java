@@ -2,12 +2,16 @@ package ch.albin.energieagentur.sdatParseTest;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import ch.gruppe.d.energieagentur.util.files.xml.model.adapter.Config;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -15,13 +19,16 @@ import org.xml.sax.SAXException;
 
 public class SdatParser {
 
-    public SdatParser(String filename) {
+    public SdatParser(String filePath) {
+        this(new File(filePath));
+    }
+
+    public SdatParser(File file) {
         //Sets Up the DocumentBuilderFactory and dataElement
         try {
             // String filePath = "src/main/resources/SDAT-Files/20190313_093127_12X-0000001216-O_E66_12X-LIPPUNEREM-T_ESLEVU121963_-279617263.xml";
 
             // Create a File object with the specified file path
-            File file = new File("src/main/resources/SDAT-Files/"+filename);
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder db = dbf.newDocumentBuilder();
             Document document = db.parse(file);
@@ -43,15 +50,16 @@ public class SdatParser {
     //Gets The DocumentID from the sdat file
     public String getDocumentID() {
         //DocumentID
-        return dataElement.getElementsByTagName("rsm:DocumentID").item(0).getTextContent();
+        String documentId = dataElement.getElementsByTagName("rsm:DocumentID").item(0).getTextContent();
+        return documentId.substring(documentId.length()-3);
     }
 
     //Gets The Observations from the sdat file
-    public Map<Integer,Double> getObservation() {
+    public Map<Integer,BigDecimal> getObservation() {
         //Observation
 
         //String is Volume and Integer is Sequence
-        Map<Integer, Double> observations = new HashMap<>();
+        Map<Integer, BigDecimal> observations = new HashMap<>();
 
         // Retrieve a list of Observation elements within the MeteringData
         NodeList oList = dataElement.getElementsByTagName("rsm:Observation");
@@ -59,7 +67,7 @@ public class SdatParser {
 
         for (int i = 0; i < oList.getLength(); i++) {
             Element oElement = (Element) oList.item(i);
-            observations.put(Integer.parseInt(oElement.getElementsByTagName("rsm:Sequence").item(0).getTextContent()), Double.parseDouble(oElement.getElementsByTagName("rsm:Volume").item(0).getTextContent()));
+            observations.put(Integer.parseInt(oElement.getElementsByTagName("rsm:Sequence").item(0).getTextContent()), new BigDecimal(oElement.getElementsByTagName("rsm:Volume").item(0).getTextContent()));
         }
         return observations;
     }
@@ -82,15 +90,15 @@ public class SdatParser {
     }
 
     //Gets The Interval StartTime from the sdat file
-    public String getIntervalStartTime() {
+    public LocalDateTime getIntervalStartTime() {
         //StartDateTime
-        return getInterval().getElementsByTagName("rsm:StartDateTime").item(0).getTextContent();
+        return LocalDateTime.parse(getInterval().getElementsByTagName("rsm:StartDateTime").item(0).getTextContent(), DateTimeFormatter.ofPattern(Config.DATE_FORMAT));
     }
 
     //Gets The Interval EndTime from the sdat file
-    public String getIntervalEndTime() {
+    public LocalDateTime getIntervalEndTime() {
         //EndDateTime
-        return getInterval().getElementsByTagName("rsm:EndDateTime").item(0).getTextContent();
+        return LocalDateTime.parse(getInterval().getElementsByTagName("rsm:EndDateTime").item(0).getTextContent(), DateTimeFormatter.ofPattern(Config.DATE_FORMAT));
     }
 
 }

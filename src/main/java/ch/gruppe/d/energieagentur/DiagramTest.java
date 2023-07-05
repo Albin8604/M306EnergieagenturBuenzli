@@ -10,11 +10,11 @@ import javafx.stage.Stage;
 import static javafx.scene.chart.XYChart.*;
 
 
-public class diagrammtest extends Application {
+public class DiagramTest extends Application {
 
     @Override
     public void start(Stage stage) {
-        SdatParser sdatParser = new SdatParser("20190313_093127_12X-0000001216-O_E66_12X-LIPPUNEREM-T_ESLEVU121963_-279617263.xml");
+        SdatParser sdatParser = new SdatParser("src/main/resources/SDAT-Files/20190313_093127_12X-0000001216-O_E66_12X-LIPPUNEREM-T_ESLEVU121963_-279617263.xml");
 
         stage.setTitle("Line Chart Sample");
         //defining the axes

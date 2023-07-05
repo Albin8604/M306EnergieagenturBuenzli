@@ -79,12 +79,11 @@ public class MainController extends Controller {
 
         switch (value) {
             case 1:
+
                 break;
             case 2:
                 break;
             default:
-                series.setName("Zählerstände");
-
                 final List<ESL> eslList = getAllESLData(null);
                 final Map<LocalDateTime, BigDecimal> diagramData = new TreeMap<>();
 
