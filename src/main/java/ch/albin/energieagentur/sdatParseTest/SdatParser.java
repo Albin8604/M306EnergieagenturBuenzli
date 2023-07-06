@@ -92,13 +92,13 @@ public class SdatParser {
     //Gets The Interval StartTime from the sdat file
     public LocalDateTime getIntervalStartTime() {
         //StartDateTime
-        return LocalDateTime.parse(getInterval().getElementsByTagName("rsm:StartDateTime").item(0).getTextContent(), DateTimeFormatter.ofPattern(Config.DATE_FORMAT));
+        return LocalDateTime.parse(getInterval().getElementsByTagName("rsm:StartDateTime").item(0).getTextContent(), DateTimeFormatter.ofPattern(Config.SDAT_DATE_FORMAT));
     }
 
     //Gets The Interval EndTime from the sdat file
     public LocalDateTime getIntervalEndTime() {
         //EndDateTime
-        return LocalDateTime.parse(getInterval().getElementsByTagName("rsm:EndDateTime").item(0).getTextContent(), DateTimeFormatter.ofPattern(Config.DATE_FORMAT));
+        return LocalDateTime.parse(getInterval().getElementsByTagName("rsm:EndDateTime").item(0).getTextContent(), DateTimeFormatter.ofPattern(Config.SDAT_DATE_FORMAT));
     }
 
 }

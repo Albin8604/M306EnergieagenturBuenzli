@@ -1,6 +1,5 @@
 module ICTSkills {
     requires javafx.graphics;
-    requires org.hibernate.orm.core;
     requires jakarta.persistence;
     requires java.naming;
     requires javafx.controls;
@@ -8,6 +7,7 @@ module ICTSkills {
     requires com.fasterxml.jackson.databind;
     requires com.opencsv;
     requires java.xml.bind;
+    requires jfxutils;
 
     opens ch.gruppe.d.energieagentur.model;
     opens ch.gruppe.d.energieagentur.controller to javafx.fxml;
@@ -21,4 +21,5 @@ module ICTSkills {
     exports ch.gruppe.d.energieagentur.util.files;
     exports ch.gruppe.d.energieagentur.util.files.xml.model.esl;
     exports ch.gruppe.d.energieagentur.util.files.xml.model.adapter;
+    exports ch.gruppe.d.energieagentur.util;
 }

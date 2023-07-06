@@ -10,11 +10,11 @@ import java.time.format.DateTimeFormatter;
 public class LocalDateTimeAdapter extends XmlAdapter<String, LocalDateTime> {
     @Override
     public LocalDateTime unmarshal(String s) throws Exception {
-        return LocalDateTime.parse(s, DateTimeFormatter.ofPattern(Config.DATE_FORMAT));
+        return LocalDateTime.parse(s, DateTimeFormatter.ofPattern(Config.ESL_DATE_FORMAT));
     }
 
     @Override
     public String marshal(LocalDateTime localDateTime) throws Exception {
-        return localDateTime.format(DateTimeFormatter.ofPattern(Config.DATE_FORMAT));
+        return localDateTime.format(DateTimeFormatter.ofPattern(Config.ESL_DATE_FORMAT));
     }
 }

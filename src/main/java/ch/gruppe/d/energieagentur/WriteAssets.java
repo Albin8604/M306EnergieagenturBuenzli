@@ -39,7 +39,7 @@ public class WriteAssets {
             "    }" +
             System.lineSeparator() +
             "}";
-    private static final String PATH_TO_ENUM = "src/main/java/ch/albin/energieagentur/assets/Assets.java";
+    private static final String PATH_TO_ENUM = "src/main/java/ch/gruppe/d/energieagentur/assets/Assets.java";
     private static final String PATH_TO_RESOURCES = "src/main/resources";
 
     public static void main(String[] args) {

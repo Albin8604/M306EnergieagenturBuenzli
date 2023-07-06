@@ -2,19 +2,18 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Scene?>
-<?import javafx.scene.chart.CategoryAxis?>
-<?import javafx.scene.chart.LineChart?>
-<?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.stage.Stage?>
 
-<Stage fx:id="stage" fx:controller="ch.gruppe.d.energieagentur.controller.MainController" title="Zählerdaten" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<?import javafx.scene.shape.Rectangle?>
+<Stage fx:id="stage" title="Zählerdaten" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.gruppe.d.energieagentur.controller.MainController">
    <scene>
       <Scene stylesheets="@css/standartStyle.css">
          <root>
@@ -121,10 +120,10 @@
                                           </Label>
                                        </center>
                                        <right>
-                                          <Button onAction="#dayForward" mnemonicParsing="false" styleClass="skipButton" text="&gt;" BorderPane.alignment="CENTER" />
+                                          <Button mnemonicParsing="false" onAction="#dayForward" styleClass="skipButton" text="&gt;" BorderPane.alignment="CENTER" />
                                        </right>
                                        <left>
-                                          <Button onAction="#dayBackward" mnemonicParsing="false" styleClass="skipButton" text="&lt;" BorderPane.alignment="CENTER" />
+                                          <Button mnemonicParsing="false" onAction="#dayBackward" styleClass="skipButton" text="&lt;" BorderPane.alignment="CENTER" />
                                        </left>
                                        <BorderPane.margin>
                                           <Insets left="5.0" right="5.0" />
@@ -141,10 +140,10 @@
                                           </Label>
                                        </center>
                                        <right>
-                                          <Button onAction="#monthForward" mnemonicParsing="false" styleClass="skipButton" text="&gt;" BorderPane.alignment="CENTER" />
+                                          <Button mnemonicParsing="false" onAction="#monthForward" styleClass="skipButton" text="&gt;" BorderPane.alignment="CENTER" />
                                        </right>
                                        <left>
-                                          <Button onAction="#monthBackward" mnemonicParsing="false" styleClass="skipButton" text="&lt;" BorderPane.alignment="CENTER" />
+                                          <Button mnemonicParsing="false" onAction="#monthBackward" styleClass="skipButton" text="&lt;" BorderPane.alignment="CENTER" />
                                        </left>
                                        <BorderPane.margin>
                                           <Insets left="5.0" right="5.0" />
@@ -160,19 +159,16 @@
                      </center>
                   </BorderPane>
                </top>
-               <center>
-                  <LineChart fx:id="dataChart" BorderPane.alignment="CENTER">
-                    <xAxis>
-                      <CategoryAxis side="BOTTOM" />
-                    </xAxis>
-                    <yAxis>
-                      <NumberAxis side="LEFT" />
-                    </yAxis>
-                  </LineChart>
-               </center>
                <padding>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </padding>
+               <center>
+                  <StackPane fx:id="mainStackPane" prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                  <Rectangle fx:id="selectRect" fill="DODGERBLUE" height="0.0" mouseTransparent="true"
+                             opacity="0.3" stroke="#002966" strokeType="INSIDE" strokeWidth="3.0" width="0.0"
+                             x="0.0" y="0.0" StackPane.alignment="TOP_LEFT" />
+                  </StackPane>
+               </center>
             </BorderPane>
          </root>
       </Scene>
