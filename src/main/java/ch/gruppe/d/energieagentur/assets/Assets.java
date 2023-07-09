@@ -4,12 +4,13 @@ import java.net.URL;
 
 public enum Assets {
 
-    ESL_Files("ESL-Files"),
+    ESLFiles("ESL-Files"),
     StandartStyle("css/standartStyle.css"),
     Test("test.fxml"),
     Main("main.fxml"),
     MANIFEST("META-INF/MANIFEST.MF"),
-    SDAT_Files("SDAT-Files"),
+    Loading("loading.gif"),
+    SDATFiles("SDAT-Files"),
 ;
     final String filename;
 

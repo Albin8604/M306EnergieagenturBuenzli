@@ -18,7 +18,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 public class SdatParser {
-
+    private final Document document;
     public SdatParser(String filePath) {
         this(new File(filePath));
     }
@@ -31,7 +31,7 @@ public class SdatParser {
             // Create a File object with the specified file path
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder db = dbf.newDocumentBuilder();
-            Document document = db.parse(file);
+            document = db.parse(file);
             document.getDocumentElement().normalize();
 
             // Retrieve a list of MeteringData elements
@@ -50,7 +50,11 @@ public class SdatParser {
     //Gets The DocumentID from the sdat file
     public String getDocumentID() {
         //DocumentID
-        String documentId = dataElement.getElementsByTagName("rsm:DocumentID").item(0).getTextContent();
+        String documentId = ((Element)(
+                (Element)document.getElementsByTagName("rsm:ValidatedMeteredData_HeaderInformation").item(0)
+        )
+                .getElementsByTagName("rsm:InstanceDocument").item(0))
+                .getElementsByTagName("rsm:DocumentID").item(0).getTextContent();
         return documentId.substring(documentId.length()-3);
     }
 

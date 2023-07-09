@@ -22,6 +22,7 @@ public class FXMLHelper {
                 controller.init();
             }
         } catch (IOException | UnsupportedOperationException e) {
+            e.printStackTrace();
             throw new RuntimeException(e);
         }
 

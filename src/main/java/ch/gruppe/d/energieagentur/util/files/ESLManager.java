@@ -1,4 +1,4 @@
-package ch.gruppe.d.energieagentur.util;
+package ch.gruppe.d.energieagentur.util.files;
 
 import ch.gruppe.d.energieagentur.util.Date.Formatter;
 import ch.gruppe.d.energieagentur.util.files.xml.model.esl.ESL;
@@ -18,7 +18,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.TreeMap;
 
-public class ESLManager {
+public class ESLManager implements FileManager{
 
     /**
      * 1-1:1.8.1 (Bezug Hochtarif)
@@ -31,8 +31,6 @@ public class ESLManager {
     private static final String PURCHASED_LOW_FARE_OBIS_CODE = "1-1:1.8.2";
     private static final String PRODUCED_HIGH_FARE_OBIS_CODE = "1-1:2.8.1";
     private static final String PRODUCED_LOW_FARE_OBIS_CODE = "1-1:2.8.2";
-
-
     public static final Map<LocalDateTime, BigDecimal> PRODUCED = new TreeMap<>();
     public static final Map<LocalDateTime, BigDecimal> PURCHASED = new TreeMap<>();
 
@@ -43,6 +41,8 @@ public class ESLManager {
 
         final JAXBContext context = JAXBContext.newInstance(ESL.class);
         final Unmarshaller mar = context.createUnmarshaller();
+
+        to = to.plusDays(1);
 
         //clearing maps before filling them
         PRODUCED.clear();
