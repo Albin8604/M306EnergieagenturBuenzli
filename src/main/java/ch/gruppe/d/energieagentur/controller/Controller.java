@@ -2,8 +2,8 @@ package ch.gruppe.d.energieagentur.controller;
 
 
 import ch.gruppe.d.energieagentur.model.uiModel.ValuesModel;
-import ch.gruppe.d.energieagentur.util.files.ESLManager;
-import ch.gruppe.d.energieagentur.util.files.SDATManager;
+import ch.gruppe.d.energieagentur.util.files.esl.ESLManager;
+import ch.gruppe.d.energieagentur.util.files.sdat.SDATManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 

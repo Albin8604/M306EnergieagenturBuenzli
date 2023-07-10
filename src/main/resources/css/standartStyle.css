@@ -2,14 +2,6 @@
     -fx-border-color: red;
 }
 
-.column-header {
-    /*
-    -fx-rotate: 90;
-    -fx-pref-height: 100;
-
-     */
-}
-
 .skipButton {
     -fx-pref-width: 40;
     -fx-max-width: 40;
@@ -46,27 +38,25 @@
 }
 
 .default-color0.chart-line-symbol {
-    -fx-background-color: #ff0000, white;
-    //-fx-background-radius: 0.0px;
-    //-fx-padding: 0.0px;
+    -fx-background-color: #ff0000;
 }
 
 .default-color1.chart-line-symbol {
-    -fx-background-color: #0000ff, white;
+    -fx-background-color: #0000ff;
 }
 
 .default-color2.chart-line-symbol {
-    -fx-background-color: #ff0000, white;
+    -fx-background-color: #ff0000;
 }
 
 .default-color3.chart-line-symbol {
-    -fx-background-color: #0000ff, white;
+    -fx-background-color: #0000ff;
 }
 
 .default-color4.chart-line-symbol {
-    -fx-background-color: #ff0000, white;
+    -fx-background-color: #ff0000;
 }
 
 .default-color5.chart-line-symbol {
-    -fx-background-color: #0000ff, white;
+    -fx-background-color: #0000ff;
 }

@@ -6,7 +6,9 @@ public enum UIAlertMsg {
     WRONG_USERNAME_OR_PASSWORD("Wrong username or password"),
     ERROR("An error occurred"),
     ERROR_READING_ESL("An error occurred while reading the ESL data"),
-    ERROR_READING_SDAT("An error occurred while reading the SDAT data");
+    ERROR_READING_SDAT("An error occurred while reading the SDAT data"),
+    MSG_NO_DATA_FOUND ("No Data found in the given Timespan");
+    ;
 
     public final String msg;
 

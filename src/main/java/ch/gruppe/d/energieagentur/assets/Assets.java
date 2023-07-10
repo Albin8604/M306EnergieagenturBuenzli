@@ -11,14 +11,14 @@ public enum Assets {
     MANIFEST("META-INF/MANIFEST.MF"),
     Loading("loading.gif"),
     SDATFiles("SDAT-Files"),
-;
+    ;
     final String filename;
 
-    Assets(String filename){
+    Assets(String filename) {
         this.filename = filename;
     }
 
-    public URL asUrl(){
+    public URL asUrl() {
         return Assets.class.getClassLoader().getResource(filename);
     }
 }

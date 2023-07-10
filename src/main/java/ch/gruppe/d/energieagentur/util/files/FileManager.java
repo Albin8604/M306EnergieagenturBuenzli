@@ -5,8 +5,10 @@ import java.io.File;
 import java.time.LocalDate;
 
 public interface FileManager {
-    default void readFolder(File eslFolder, LocalDate from, LocalDate to) throws JAXBException{
+    default void readFolder(File eslFolder, LocalDate from, LocalDate to) throws JAXBException {
         throw new UnsupportedOperationException();
-    };
+    }
+
+    ;
 
 }

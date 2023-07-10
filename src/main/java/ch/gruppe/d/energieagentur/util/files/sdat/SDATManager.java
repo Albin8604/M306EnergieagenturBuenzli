@@ -1,6 +1,6 @@
-package ch.gruppe.d.energieagentur.util.files;
+package ch.gruppe.d.energieagentur.util.files.sdat;
 
-import ch.albin.energieagentur.sdatParseTest.SdatParser;
+import ch.gruppe.d.energieagentur.util.files.FileManager;
 
 import java.io.File;
 import java.math.BigDecimal;
@@ -57,7 +57,7 @@ public class SDATManager implements FileManager {
                 final LocalDateTime key = start.plusMinutes((long) resolutionInMin * count);
                 BigDecimal value = observation.getValue();
 
-                if (key.isBefore(from.atStartOfDay()) || key.isAfter(to.atStartOfDay())){
+                if (key.isBefore(from.atStartOfDay()) || key.isAfter(to.atStartOfDay())) {
                     continue;
                 }
 

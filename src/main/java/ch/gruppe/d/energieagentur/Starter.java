@@ -12,7 +12,7 @@ public class Starter extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Stage primaryStage =  FXMLHelper.load(Assets.Main);
+        Stage primaryStage = FXMLHelper.load(Assets.Main);
         //Stage primaryStage =  FXMLHelper.load(Assets.Test);
         primaryStage.show();
     }

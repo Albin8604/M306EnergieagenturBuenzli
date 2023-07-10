@@ -3,13 +3,13 @@ package ch.gruppe.d.energieagentur.controller;
 import ch.gruppe.d.energieagentur.assets.Assets;
 import ch.gruppe.d.energieagentur.model.uiModel.ValuesModel;
 import ch.gruppe.d.energieagentur.util.Date.Formatter;
-import ch.gruppe.d.energieagentur.util.files.ESLManager;
-import ch.gruppe.d.energieagentur.util.files.SDATManager;
+import ch.gruppe.d.energieagentur.util.files.esl.ESLManager;
+import ch.gruppe.d.energieagentur.util.files.FileManager;
+import ch.gruppe.d.energieagentur.util.files.sdat.SDATManager;
 import ch.gruppe.d.energieagentur.util.files.chooser.ChooserManager;
 import ch.gruppe.d.energieagentur.util.ui.UIAlertMsg;
 import ch.gruppe.d.energieagentur.util.ui.UIHelper;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
@@ -38,22 +38,16 @@ import java.util.Objects;
 
 import static ch.gruppe.d.energieagentur.util.files.xml.model.adapter.Config.START_FROM_DATE;
 import static ch.gruppe.d.energieagentur.util.files.xml.model.adapter.Config.START_TO_DATE;
+import static ch.gruppe.d.energieagentur.util.ui.UIAlertMsg.MSG_NO_DATA_FOUND;
 
 /**
  * This class is used as a Controller for the Main View
  */
 public class MainController extends Controller {
-    /*
-        private static final StableTicksAxis X_AXIS = new StableTicksAxis();
-        private static final StableTicksAxis Y_AXIS = new StableTicksAxis();
-
-         */
     private static final CategoryAxis X_AXIS = new CategoryAxis();
     private static final NumberAxis Y_AXIS = new NumberAxis();
-    public static final String MSG_NO_DATA_FOUND = "No Data found in the given Timespan";
-
-    //todo zoom https://stackoverflow.com/questions/22099650/zoom-bar-chart-with-mouse-wheel
-    //private static LineChart<String, Number> DATA_CHART;
+    private final XYChart.Series<String, Number> producedDataSeries = new XYChart.Series<>();
+    private final XYChart.Series<String, Number> purchasedDataSeries = new XYChart.Series<>();
     public StackPane mainStackPane;
     public Rectangle selectRect;
     private int lastValue = -1;
@@ -78,6 +72,9 @@ public class MainController extends Controller {
             X_AXIS.setLabel("Datum");
             X_AXIS.setAnimated(false);
 
+            producedDataSeries.setName("Einspeisung Netz");
+            purchasedDataSeries.setName("Bezug Netz");
+
             fromDatePicker.setValue(START_FROM_DATE);
             toDatePicker.setValue(START_TO_DATE);
 
@@ -97,6 +94,11 @@ public class MainController extends Controller {
         }
     }
 
+    /**
+     * Creates and shows the loading screen
+     * @throws URISyntaxException
+     * @throws FileNotFoundException
+     */
     private void createLoadingScreen() throws URISyntaxException, FileNotFoundException {
         final ImageView loading = new ImageView();
 
@@ -105,90 +107,119 @@ public class MainController extends Controller {
         mainBorderPane.setCenter(loading);
     }
 
-    private void prepareAndFillSdatData(XYChart.Series<String, Number> producedDataSeries, XYChart.Series<String, Number> purchasedDataSeries) {
-        if (sdatFolder == null) {
-            try {
-                SDAT_MANAGER.readFolder(getStandardSDATFolder(), fromDatePicker.getValue(), toDatePicker.getValue());
-            } catch (URISyntaxException e) {
-                throw new RuntimeException(e);
-            }
-        } else {
-            SDAT_MANAGER.readFolder(sdatFolder, fromDatePicker.getValue(), toDatePicker.getValue());
-        }
-        fillDataIntoSeries(SDATManager.PRODUCED, producedDataSeries);
-        fillDataIntoSeries(SDATManager.PURCHASED, purchasedDataSeries);
+    /**
+     * prepares and fills data in
+     * @param fileManager file manager to be able to get the data
+     * @throws Exception
+     */
+    private void prepareAndFillData(FileManager fileManager) throws Exception {
+
+        //checks the instance of the fileManager
+        fileManager.readFolder(fileManager instanceof ESLManager ? getESLFolder() : getSdatFolder(), fromDatePicker.getValue(), toDatePicker.getValue());
+
+        fillDataIntoSeries(fileManager instanceof ESLManager ? ESLManager.PRODUCED : SDATManager.PRODUCED, producedDataSeries);
+        fillDataIntoSeries(fileManager instanceof ESLManager ? ESLManager.PURCHASED : SDATManager.PURCHASED, purchasedDataSeries);
     }
 
     /**
-     * This Method updates the diagram or changes it completely
+     * This method updates the diagramm with new data
+     *
+     * @throws URISyntaxException
+     * @throws JAXBException
+     * @throws FileNotFoundException
      */
     private void updateDiagram() throws URISyntaxException, JAXBException, FileNotFoundException {
         final int value = valuesComboBox.getSelectionModel().getSelectedItem().getValue();
 
+        //has the old value been changed
         if (lastValue == value && lastFromDate.isEqual(fromDatePicker.getValue()) && lastToDate.isEqual(toDatePicker.getValue())) {
             return;
         }
 
-        final XYChart.Series<String, Number> producedDataSeries = new XYChart.Series<>();
-        final XYChart.Series<String, Number> purchasedDataSeries = new XYChart.Series<>();
+        //creating objects needed for the diagram
         final LineChart<String, Number> DATA_CHART = new LineChart<>(X_AXIS, Y_AXIS);
 
-
-        producedDataSeries.setName("Einspeisung Netz");
-        purchasedDataSeries.setName("Bezug Netz");
-
+        //config
         DATA_CHART.setCreateSymbols(false);
 
         createLoadingScreen();
 
+        //filling diagram
         new Thread(() -> {
-            switch (value) {
-                case 1 -> {
-                    Y_AXIS.setLabel("kWh");
-                    SDAT_MANAGER.setKwH(true);
-                    prepareAndFillSdatData(producedDataSeries, purchasedDataSeries);
-                }
-                case 2 -> {
-                    Y_AXIS.setLabel("kW");
-                    SDAT_MANAGER.setKwH(false);
-                    prepareAndFillSdatData(producedDataSeries, purchasedDataSeries);
-                }
-                default -> {
-                    Y_AXIS.setLabel("kWh");
-                    if (eslFolder == null) {
-                        try {
-                            ESL_MANAGER.readFolder(getStandardESLFolder(), fromDatePicker.getValue(), toDatePicker.getValue());
-                        } catch (JAXBException | URISyntaxException e) {
-                            throw new RuntimeException(e);
-                        }
-                    } else {
-                        try {
-                            ESL_MANAGER.readFolder(eslFolder, fromDatePicker.getValue(), toDatePicker.getValue());
-                        } catch (JAXBException e) {
-                            throw new RuntimeException(e);
-                        }
+            try {
+                switch (value) {
+                    case 1 -> {
+                        Y_AXIS.setLabel("kWh");
+                        SDAT_MANAGER.setKwH(true);
+                        prepareAndFillData(SDAT_MANAGER);
                     }
-                    fillDataIntoSeries(ESLManager.PRODUCED, producedDataSeries);
-                    fillDataIntoSeries(ESLManager.PURCHASED, purchasedDataSeries);
+                    case 2 -> {
+                        Y_AXIS.setLabel("kW");
+                        SDAT_MANAGER.setKwH(false);
+                        prepareAndFillData(SDAT_MANAGER);
+                    }
+                    default -> {
+                        Y_AXIS.setLabel("kWh");
+                        prepareAndFillData(ESL_MANAGER);
+                    }
                 }
-            }
 
-            if (producedDataSeries.getData().isEmpty() && purchasedDataSeries.getData().isEmpty()){
-                Platform.runLater(() -> mainBorderPane.setCenter(new Text(MSG_NO_DATA_FOUND)));
-            }else {
-                DATA_CHART.getData().add(producedDataSeries);
-                DATA_CHART.getData().add(purchasedDataSeries);
+                //checks if no data has been found
+                if (producedDataSeries.getData().isEmpty() && purchasedDataSeries.getData().isEmpty()) {
+                    Platform.runLater(() -> mainBorderPane.setCenter(new Text(MSG_NO_DATA_FOUND.msg)));
+                } else {
+                    DATA_CHART.getData().add(producedDataSeries);
+                    DATA_CHART.getData().add(purchasedDataSeries);
 
-                Platform.runLater(() -> mainBorderPane.setCenter(DATA_CHART));
+                    Platform.runLater(() -> mainBorderPane.setCenter(DATA_CHART));
+                }
+
+            } catch (Exception e) {
+                Platform.runLater(() -> UIHelper.createAndShowAlert(Alert.AlertType.ERROR, UIAlertMsg.ERROR));
             }
         }).start();
 
+        //setting the last values
         lastValue = value;
         lastFromDate = fromDatePicker.getValue();
         lastToDate = toDatePicker.getValue();
     }
 
+    /**
+     * Checks if the user already has chosen an SDAT folder to be able to choose between the chosen one or the standard one
+     *
+     * @return the correct SDAT Folder
+     * @throws URISyntaxException
+     */
+    private File getSdatFolder() throws URISyntaxException {
+        if (sdatFolder == null) {
+            return getStandardSDATFolder();
+        }
+        return sdatFolder;
+    }
+
+    /**
+     * Checks if the user already has chosen an ESL folder to be able to choose between the chosen one or the standard one
+     *
+     * @return the correct ESL Folder
+     * @throws URISyntaxException
+     */
+    private File getESLFolder() throws URISyntaxException {
+        if (eslFolder == null) {
+            return getStandardESLFolder();
+        }
+        return eslFolder;
+    }
+
+    /**
+     * This method fills the given map into the given series
+     *
+     * @param data   given map
+     * @param series given series
+     */
     private void fillDataIntoSeries(Map<LocalDateTime, BigDecimal> data, XYChart.Series<String, Number> series) {
+        series.getData().clear();
+
         for (Map.Entry<LocalDateTime, BigDecimal> dataEntry : data.entrySet()) {
             series.getData().add(new XYChart.Data<>(
                     Formatter.formatDateTime(dataEntry.getKey()),
@@ -197,10 +228,22 @@ public class MainController extends Controller {
         }
     }
 
+    /**
+     * This method gets the standard ESL folder
+     *
+     * @return standard ESL Folder
+     * @throws URISyntaxException
+     */
     private File getStandardESLFolder() throws URISyntaxException {
         return new File(Objects.requireNonNull(MainController.class.getClassLoader().getResource("ESL-Files")).toURI());
     }
 
+    /**
+     * This method gets the standard SDAT folder
+     *
+     * @return standard SDAT Folder
+     * @throws URISyntaxException
+     */
     private File getStandardSDATFolder() throws URISyntaxException {
         return new File(Objects.requireNonNull(MainController.class.getClassLoader().getResource("SDAT-Files")).toURI());
     }
@@ -341,6 +384,9 @@ public class MainController extends Controller {
         updateDiagramAndHandleExceptions();
     }
 
+    /**
+     * This method calls the updateDiagram(); method and catches the exception
+     */
     private void updateDiagramAndHandleExceptions() {
         try {
             updateDiagram();
@@ -349,20 +395,28 @@ public class MainController extends Controller {
         }
     }
 
+    /**
+     * This method gets triggered when the date gets changed from the datepicker
+     * It updates the diagram with the new from date
+     */
     public void changeFromDate() {
         LocalDate fromDate = fromDatePicker.getValue();
         LocalDate toDate = toDatePicker.getValue();
-        if (fromDate.isAfter(toDate)){
+        if (fromDate.isAfter(toDate)) {
             toDatePicker.setValue(fromDate.plusDays(1));
         }
 
         updateDiagramAndHandleExceptions();
     }
 
+    /**
+     * This method gets triggered when the date gets changed from the datepicker
+     * It updates the diagram with the new to date
+     */
     public void changeToDate() {
         LocalDate fromDate = fromDatePicker.getValue();
         LocalDate toDate = toDatePicker.getValue();
-        if (toDate.isBefore(fromDate)){
+        if (toDate.isBefore(fromDate)) {
             fromDatePicker.setValue(toDate.minusDays(1));
         }
 

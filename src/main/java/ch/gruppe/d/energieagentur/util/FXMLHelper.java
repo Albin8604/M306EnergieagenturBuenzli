@@ -2,7 +2,6 @@ package ch.gruppe.d.energieagentur.util;
 
 import ch.gruppe.d.energieagentur.assets.Assets;
 import ch.gruppe.d.energieagentur.controller.Controller;
-import ch.gruppe.d.energieagentur.controller.model.ModelController;
 import javafx.fxml.FXMLLoader;
 
 import java.io.File;
@@ -29,19 +28,6 @@ public class FXMLHelper {
         return result;
     }
 
-    public static <T> T loadModel(Assets asset, Object o) {
-        FXMLLoader fxmlLoader = new FXMLLoader(asset.asUrl());
-        T result;
-
-        try {
-            result = fxmlLoader.load();
-            ((ModelController) fxmlLoader.getController()).init(o);
-        } catch (IOException | UnsupportedOperationException e) {
-            throw new RuntimeException(e);
-        }
-
-        return result;
-    }
 
     public static <T> T loadModelWithoutController(Assets asset) {
         FXMLLoader fxmlLoader = new FXMLLoader(asset.asUrl());

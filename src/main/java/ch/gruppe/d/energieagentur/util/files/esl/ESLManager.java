@@ -1,6 +1,6 @@
-package ch.gruppe.d.energieagentur.util.files;
+package ch.gruppe.d.energieagentur.util.files.esl;
 
-import ch.gruppe.d.energieagentur.util.Date.Formatter;
+import ch.gruppe.d.energieagentur.util.files.FileManager;
 import ch.gruppe.d.energieagentur.util.files.xml.model.esl.ESL;
 import ch.gruppe.d.energieagentur.util.files.xml.model.esl.TimePeriod;
 import ch.gruppe.d.energieagentur.util.files.xml.model.esl.ValueRow;
@@ -18,7 +18,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.TreeMap;
 
-public class ESLManager implements FileManager{
+public class ESLManager implements FileManager {
 
     /**
      * 1-1:1.8.1 (Bezug Hochtarif)
@@ -58,7 +58,7 @@ public class ESLManager implements FileManager{
 
         for (ESL esl : eslList) {
             for (TimePeriod timePeriod : esl.getMeter().getTimePeriodList()) {
-                if (from.isAfter(timePeriod.getEnd().toLocalDate()) || to.isBefore(timePeriod.getEnd().toLocalDate())){
+                if (from.isAfter(timePeriod.getEnd().toLocalDate()) || to.isBefore(timePeriod.getEnd().toLocalDate())) {
                     continue;
                 }
 

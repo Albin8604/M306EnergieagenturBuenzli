@@ -1,15 +1,4 @@
-package ch.albin.energieagentur.sdatParseTest;
-
-import java.io.File;
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.Map;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
+package ch.gruppe.d.energieagentur.util.files.sdat;
 
 import ch.gruppe.d.energieagentur.util.files.xml.model.adapter.Config;
 import org.w3c.dom.Document;
@@ -17,8 +6,20 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.File;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.Map;
+
 public class SdatParser {
     private final Document document;
+
     public SdatParser(String filePath) {
         this(new File(filePath));
     }
@@ -50,16 +51,16 @@ public class SdatParser {
     //Gets The DocumentID from the sdat file
     public String getDocumentID() {
         //DocumentID
-        String documentId = ((Element)(
-                (Element)document.getElementsByTagName("rsm:ValidatedMeteredData_HeaderInformation").item(0)
+        String documentId = ((Element) (
+                (Element) document.getElementsByTagName("rsm:ValidatedMeteredData_HeaderInformation").item(0)
         )
                 .getElementsByTagName("rsm:InstanceDocument").item(0))
                 .getElementsByTagName("rsm:DocumentID").item(0).getTextContent();
-        return documentId.substring(documentId.length()-3);
+        return documentId.substring(documentId.length() - 3);
     }
 
     //Gets The Observations from the sdat file
-    public Map<Integer,BigDecimal> getObservation() {
+    public Map<Integer, BigDecimal> getObservation() {
         //Observation
 
         //String is Volume and Integer is Sequence
