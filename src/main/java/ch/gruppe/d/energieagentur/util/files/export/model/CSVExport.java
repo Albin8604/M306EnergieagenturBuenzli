@@ -2,11 +2,11 @@ package ch.gruppe.d.energieagentur.util.files.export.model;
 
 import java.math.BigDecimal;
 
-public class CSV {
+public class CSVExport {
     private long timestamp;
     private BigDecimal value;
 
-    public CSV(long timestamp, BigDecimal value) {
+    public CSVExport(long timestamp, BigDecimal value) {
         this.timestamp = timestamp;
         this.value = value;
     }
@@ -23,7 +23,7 @@ public class CSV {
      *
      * @return csv
      */
-    public CSV setTimestamp(long timestamp) {
+    public CSVExport setTimestamp(long timestamp) {
         this.timestamp = timestamp;
         return this;
     }
@@ -40,7 +40,7 @@ public class CSV {
      *
      * @return csv
      */
-    public CSV setValue(BigDecimal value) {
+    public CSVExport setValue(BigDecimal value) {
         this.value = value;
         return this;
     }

@@ -2,9 +2,15 @@ package ch.gruppe.d.energieagentur.controller;
 
 import ch.gruppe.d.energieagentur.assets.Assets;
 import ch.gruppe.d.energieagentur.model.uiModel.ValuesModel;
+import ch.gruppe.d.energieagentur.util.Converter;
+import ch.gruppe.d.energieagentur.util.Date.DateHelper;
 import ch.gruppe.d.energieagentur.util.Date.Formatter;
+import ch.gruppe.d.energieagentur.util.files.chooser.Extensions;
 import ch.gruppe.d.energieagentur.util.files.esl.ESLManager;
 import ch.gruppe.d.energieagentur.util.files.FileManager;
+import ch.gruppe.d.energieagentur.util.files.export.model.JSONExport;
+import ch.gruppe.d.energieagentur.util.files.export.model.SensorId;
+import ch.gruppe.d.energieagentur.util.files.export.model.Zaehlerstand;
 import ch.gruppe.d.energieagentur.util.files.sdat.SDATManager;
 import ch.gruppe.d.energieagentur.util.files.chooser.ChooserManager;
 import ch.gruppe.d.energieagentur.util.ui.UIAlertMsg;
@@ -35,6 +41,8 @@ import java.math.BigDecimal;
 import java.net.URISyntaxException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -81,8 +89,6 @@ public class MainController extends Controller {
 
             fromDatePicker.setValue(START_FROM_DATE);
             toDatePicker.setValue(START_TO_DATE);
-
-            jsonExportBtn.setUserData(ESL_MANAGER);
 
             valuesComboBox.valueProperty().addListener((observableValue, valuesModel, t1) -> {
                 System.out.println(valuesComboBox.getSelectionModel().getSelectedItem().getName());
@@ -430,7 +436,24 @@ public class MainController extends Controller {
     }
 
     public void jsonExport() {
-        //((ESLManager)jsonExportBtn.getUserData()).PRODUCED
+        final File chosenJsonFileLocation = ChooserManager.getChoosedSaveFile(stage, Extensions.JSON);
+        final List<JSONExport> jsonExportData = new ArrayList<>();
+
+        final List<Zaehlerstand> producedZaehlerstandList = new ArrayList<>();
+        final List<Zaehlerstand> purchasedZaehlerstandList = new ArrayList<>();
+
+        for (Map.Entry<LocalDateTime, BigDecimal> producedESLEntrySet : ESLManager.PRODUCED.entrySet()) {
+            producedZaehlerstandList.add(new Zaehlerstand(producedESLEntrySet.getKey(),producedESLEntrySet.getValue().doubleValue()));
+        }
+
+        for (Map.Entry<LocalDateTime, BigDecimal> purchasedESLEntrySet : ESLManager.PURCHASED.entrySet()) {
+            purchasedZaehlerstandList.add(new Zaehlerstand(purchasedESLEntrySet.getKey(),purchasedESLEntrySet.getValue().doubleValue()));
+        }
+
+        jsonExportData.add(new JSONExport(SensorId.ID735, (Zaehlerstand[]) producedZaehlerstandList.toArray()));
+        jsonExportData.add(new JSONExport(SensorId.ID742, (Zaehlerstand[]) purchasedZaehlerstandList.toArray()));
+
+       JSON_FILE_MANAGER.write(jsonExportData,chosenJsonFileLocation.getAbsolutePath());
     }
 
     public void csvExport(ActionEvent actionEvent) {
