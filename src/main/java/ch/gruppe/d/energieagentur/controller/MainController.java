@@ -10,6 +10,7 @@ import ch.gruppe.d.energieagentur.util.files.chooser.ChooserManager;
 import ch.gruppe.d.energieagentur.util.ui.UIAlertMsg;
 import ch.gruppe.d.energieagentur.util.ui.UIHelper;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
@@ -421,5 +422,13 @@ public class MainController extends Controller {
         }
 
         updateDiagramAndHandleExceptions();
+    }
+
+    public void jsonExport(ActionEvent actionEvent) {
+
+    }
+
+    public void csvExport(ActionEvent actionEvent) {
+
     }
 }
