@@ -25,8 +25,8 @@
                                     <children>
                                         <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#selectSDATFolder" text="Select SDAT Folder" />
                                         <Button layoutX="10.0" layoutY="10.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#selectESLFolder" text="Select ESL Folder" />
-                              <Button mnemonicParsing="false" onAction="#jsonExport" text="Export to JSON" />
-                              <Button layoutX="10.0" layoutY="72.0" mnemonicParsing="false" onAction="#csvExport" text="Export to CSV" />
+                              <Button fx:id="jsonExportBtn" mnemonicParsing="false" onAction="#jsonExport" text="Export to JSON" />
+                              <Button fx:id="csvExportBtn" layoutX="10.0" layoutY="72.0" mnemonicParsing="false" onAction="#csvExport" text="Export to CSV" />
                                     </children>
                                 </VBox>
                             </left>

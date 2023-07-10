@@ -16,6 +16,7 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.image.Image;
@@ -51,6 +52,8 @@ public class MainController extends Controller {
     private final XYChart.Series<String, Number> purchasedDataSeries = new XYChart.Series<>();
     public StackPane mainStackPane;
     public Rectangle selectRect;
+    public Button jsonExportBtn;
+    public Button csvExportBtn;
     private int lastValue = -1;
     private LocalDate lastFromDate = LocalDate.now().plusDays(1);
     private LocalDate lastToDate = LocalDate.now().plusDays(1);
@@ -78,6 +81,8 @@ public class MainController extends Controller {
 
             fromDatePicker.setValue(START_FROM_DATE);
             toDatePicker.setValue(START_TO_DATE);
+
+            jsonExportBtn.setUserData(ESL_MANAGER);
 
             valuesComboBox.valueProperty().addListener((observableValue, valuesModel, t1) -> {
                 System.out.println(valuesComboBox.getSelectionModel().getSelectedItem().getName());
@@ -424,8 +429,8 @@ public class MainController extends Controller {
         updateDiagramAndHandleExceptions();
     }
 
-    public void jsonExport(ActionEvent actionEvent) {
-
+    public void jsonExport() {
+        //((ESLManager)jsonExportBtn.getUserData()).PRODUCED
     }
 
     public void csvExport(ActionEvent actionEvent) {

@@ -1,4 +1,4 @@
-package ch.gruppe.d.energieagentur.util.files;
+package ch.gruppe.d.energieagentur.util.files.export;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
