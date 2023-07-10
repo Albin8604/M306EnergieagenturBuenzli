@@ -9,7 +9,8 @@ public class ValuesModel {
 
     /**
      * All args constructor
-     * @param name name of model
+     *
+     * @param name  name of model
      * @param value value of model
      */
     public ValuesModel(String name, int value) {

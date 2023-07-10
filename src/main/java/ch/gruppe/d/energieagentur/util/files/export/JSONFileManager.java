@@ -5,11 +5,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Generic JSONFileManager used for Managing JSON Files as reading and writing
+ *
  * @param <T>
  */
 public class JSONFileManager<T> implements ExportFileManager<T> {

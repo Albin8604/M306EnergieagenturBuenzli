@@ -30,8 +30,8 @@ public class Meter {
     /**
      * Constructor
      *
-     * @param factoryNo     String
-     * @param internalNo    String
+     * @param factoryNo      String
+     * @param internalNo     String
      * @param timePeriodList List<TimePeriod>
      */
     public Meter(String factoryNo, String internalNo, List<TimePeriod> timePeriodList) {

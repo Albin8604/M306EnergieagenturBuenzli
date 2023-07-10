@@ -3,7 +3,6 @@ package ch.gruppe.d.energieagentur;
 import ch.gruppe.d.energieagentur.assets.Assets;
 import ch.gruppe.d.energieagentur.util.FXMLHelper;
 import javafx.application.Application;
-import javafx.embed.swing.SwingNode;
 import javafx.stage.Stage;
 
 /**

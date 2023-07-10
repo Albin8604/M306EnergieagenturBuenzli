@@ -9,8 +9,9 @@ public class JSONExport {
 
     /**
      * constructor of Export class
+     *
      * @param sensorId sensorId of Export class
-     * @param data data of Export class
+     * @param data     data of Export class
      */
     public JSONExport(SensorId sensorId, Zaehlerstand[] data) {
         this.sensorId = sensorId.name();

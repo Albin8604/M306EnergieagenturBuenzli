@@ -38,10 +38,10 @@ public class ValueRow {
     /**
      * Constructor
      *
-     * @param obis            String
-     * @param valueTimeStamp  LocalDateTime
-     * @param value           BigDecimal
-     * @param status          String
+     * @param obis           String
+     * @param valueTimeStamp LocalDateTime
+     * @param value          BigDecimal
+     * @param status         String
      */
     public ValueRow(String obis, LocalDateTime valueTimeStamp, BigDecimal value, String status) {
         this.obis = obis;

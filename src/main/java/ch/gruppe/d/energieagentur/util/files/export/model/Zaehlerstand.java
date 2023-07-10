@@ -13,7 +13,8 @@ public class Zaehlerstand {
 
     /**
      * Full args Constructor
-     * @param ts timestamp for easier creation in LocalDateTime
+     *
+     * @param ts    timestamp for easier creation in LocalDateTime
      * @param value value
      */
     public Zaehlerstand(LocalDateTime ts, double value) {

@@ -2,7 +2,6 @@ package ch.gruppe.d.energieagentur.controller;
 
 import ch.gruppe.d.energieagentur.component.LineChartComponent;
 import ch.gruppe.d.energieagentur.model.uiModel.ValuesModel;
-import ch.gruppe.d.energieagentur.util.Date.Formatter;
 import ch.gruppe.d.energieagentur.util.files.FileManager;
 import ch.gruppe.d.energieagentur.util.files.chooser.ChooserManager;
 import ch.gruppe.d.energieagentur.util.files.chooser.Extensions;
@@ -17,7 +16,6 @@ import ch.gruppe.d.energieagentur.util.ui.UIHelper;
 import javafx.embed.swing.SwingNode;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -130,7 +128,7 @@ public class MainController extends Controller {
     private void updateDiagram() throws URISyntaxException, JAXBException, FileNotFoundException {
 
         //to disable multiple method calls in short time
-        if (diagramUpdated){
+        if (diagramUpdated) {
             return;
         }
 

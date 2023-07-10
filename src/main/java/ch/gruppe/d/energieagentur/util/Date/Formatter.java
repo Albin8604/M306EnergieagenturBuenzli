@@ -1,8 +1,6 @@
 package ch.gruppe.d.energieagentur.util.Date;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 /**
@@ -16,6 +14,7 @@ public class Formatter {
 
     /**
      * Formats LocalDateTime with the DATE_TIME_FORMATTER
+     *
      * @param dateTime given LocalDateTime
      * @return formatted LocalDateTime
      */

@@ -49,7 +49,7 @@ public class ESLManager implements FileManager {
         final Unmarshaller mar = context.createUnmarshaller();
 
         //adds one day to the "to" parameter, for better filtering
-        if (to != null){
+        if (to != null) {
             to = to.plusDays(1);
         }
 
@@ -94,10 +94,11 @@ public class ESLManager implements FileManager {
 
     /**
      * This method add the given value to the tempValue and then adds it in the DATA MAP
-     * @param date given date
+     *
+     * @param date      given date
      * @param tempValue given tempValue
-     * @param value given Value
-     * @param map given Map
+     * @param value     given Value
+     * @param map       given Map
      * @return the new calculated value
      */
     private BigDecimal addElementToMap(LocalDateTime date, BigDecimal tempValue, BigDecimal value, Map<LocalDateTime, BigDecimal> map) {

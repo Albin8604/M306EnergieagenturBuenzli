@@ -19,8 +19,9 @@ import java.util.List;
 
 /**
  * Generic CSVFileManager class used for reading and writing CSV Files
+ *
  * @param <T> objects to be written or read
- * <a href="https://www.baeldung.com/opencsv">source</a>
+ *            <a href="https://www.baeldung.com/opencsv">source</a>
  */
 public class CSVFileManager<T> implements ExportFileManager<T> {
     private static final char SEPARATOR = ',';

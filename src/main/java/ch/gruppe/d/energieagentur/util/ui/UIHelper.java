@@ -1,8 +1,6 @@
 package ch.gruppe.d.energieagentur.util.ui;
 
 import javafx.scene.control.Alert;
-import javafx.scene.control.Spinner;
-import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.image.ImageView;
 
 /**
@@ -11,7 +9,8 @@ import javafx.scene.image.ImageView;
 public class UIHelper {
     /**
      * This method creates and shows an alert
-     * @param alertType given alert type
+     *
+     * @param alertType  given alert type
      * @param uiAlertMsg given alert message
      */
     public static void createAndShowAlert(Alert.AlertType alertType, UIAlertMsg uiAlertMsg) {
@@ -20,7 +19,8 @@ public class UIHelper {
 
     /**
      * This method creates and shows an alert with a custom message
-     * @param alertType given alert type
+     *
+     * @param alertType  given alert type
      * @param uiAlertMsg given alert message
      */
     public static void createAndShowAlert(Alert.AlertType alertType, String uiAlertMsg) {
@@ -29,9 +29,10 @@ public class UIHelper {
 
     /**
      * This method creates and shows an alert with a custom message and custom graphic
-     * @param alertType given alert type
+     *
+     * @param alertType  given alert type
      * @param uiAlertMsg given alert message
-     * @param graphic given graphic
+     * @param graphic    given graphic
      */
     public static void createAndShowAlert(Alert.AlertType alertType, String uiAlertMsg, ImageView graphic) {
 
@@ -59,11 +60,12 @@ public class UIHelper {
 
     /**
      * This method creates and shows an alert with a custom message, custom graphic, custom title, custom headerText and custom bodyText
+     *
      * @param feedbackType given alert type
-     * @param graphic given graphic
-     * @param title given title
-     * @param headerText given header text
-     * @param bodyText given body text
+     * @param graphic      given graphic
+     * @param title        given title
+     * @param headerText   given header text
+     * @param bodyText     given body text
      */
     private static void alert(Alert.AlertType feedbackType, ImageView graphic, String title, String headerText, String bodyText) {
         Alert alert = new Alert(feedbackType);

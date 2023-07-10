@@ -84,7 +84,7 @@ public class SDATManager implements FileManager {
                     } else {
                         produced.put(key, value);
                     }
-                }catch (NullPointerException e){
+                } catch (NullPointerException e) {
                     return;
                 }
 

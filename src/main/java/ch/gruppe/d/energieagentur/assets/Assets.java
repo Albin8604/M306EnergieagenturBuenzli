@@ -22,6 +22,7 @@ public enum Assets {
 
     /**
      * Converts the paths to URL
+     *
      * @return url of file
      */
     public URL asUrl() {

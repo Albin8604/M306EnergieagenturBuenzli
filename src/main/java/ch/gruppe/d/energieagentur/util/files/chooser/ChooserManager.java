@@ -6,7 +6,6 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.util.Arrays;
-import java.util.List;
 
 /**
  * This class is used to manage the chooser in javafx
@@ -14,7 +13,8 @@ import java.util.List;
 public class ChooserManager {
     /**
      * Opens the file chooser dialog with given extensions and returns the selected file
-     * @param stage the stage on which the dialog should be shown
+     *
+     * @param stage      the stage on which the dialog should be shown
      * @param extensions extensions of the file
      * @return chosen file
      */
@@ -37,6 +37,7 @@ public class ChooserManager {
 
     /**
      * Opens the folder chooser dialog and returns the selected folder
+     *
      * @param stage the stage on which the dialog should be shown
      * @return chosen folder
      */

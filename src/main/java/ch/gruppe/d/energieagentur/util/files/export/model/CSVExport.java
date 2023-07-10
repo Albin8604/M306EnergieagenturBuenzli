@@ -1,7 +1,7 @@
 package ch.gruppe.d.energieagentur.util.files.export.model;
 
-import ch.gruppe.d.energieagentur.util.Converter;
 import ch.gruppe.d.energieagentur.Config;
+import ch.gruppe.d.energieagentur.util.Converter;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
@@ -16,8 +16,9 @@ public class CSVExport {
 
     /**
      * Full parameter constructor
+     *
      * @param timestamp for easier creation in LocalDateTime
-     * @param value for easier creation in BigDecimal
+     * @param value     for easier creation in BigDecimal
      */
     public CSVExport(LocalDateTime timestamp, BigDecimal value) {
         this.timestamp = Converter.convertLocalDateTimeToMillis(timestamp);

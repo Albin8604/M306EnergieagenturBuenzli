@@ -23,9 +23,10 @@ import java.util.Map;
 public class LineChartComponent extends JComponent {
     /**
      * Constructor with all the needed data
-     * @param produced produced data
+     *
+     * @param produced  produced data
      * @param purchased purchased data
-     * @param isKwH isKwH boolean
+     * @param isKwH     isKwH boolean
      */
     public LineChartComponent(Map<LocalDateTime, BigDecimal> produced, Map<LocalDateTime, BigDecimal> purchased, boolean isKwH) {
         setLayout(new BorderLayout());
@@ -37,7 +38,7 @@ public class LineChartComponent extends JComponent {
         JFreeChart chart = ChartFactory.createTimeSeriesChart(
                 "Strombezug und Stromeinspeisung",
                 "Datum",
-                isKwH ? "kWh":"kW",
+                isKwH ? "kWh" : "kW",
                 dataset,
                 true,
                 false,
@@ -49,21 +50,22 @@ public class LineChartComponent extends JComponent {
         XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer();
 
         renderer.setSeriesPaint(0, Color.RED);
-        renderer.setSeriesShapesVisible(0,false);
+        renderer.setSeriesShapesVisible(0, false);
 
         renderer.setSeriesPaint(1, Color.BLUE);
-        renderer.setSeriesShapesVisible(1,false);
+        renderer.setSeriesShapesVisible(1, false);
         plot.setRenderer(renderer);
 
         // Create Panel
         ChartPanel panel = new ChartPanel(chart);
-        panel.setMaximumSize(new Dimension(1100,450));
+        panel.setMaximumSize(new Dimension(1100, 450));
         add(panel, BorderLayout.CENTER);
     }
 
     /**
      * creates datasets for the chart
-     * @param produced produced map
+     *
+     * @param produced  produced map
      * @param purchased purchased map
      * @return filled set
      */

@@ -26,9 +26,10 @@ public class SdatParser {
     /**
      * Constructor with file parameter
      * saves the important data
+     *
      * @param file given file
      */
-    public SdatParser(File file) throws IllegalArgumentException{
+    public SdatParser(File file) throws IllegalArgumentException {
         //Sets Up the DocumentBuilderFactory and dataElement
         try {
 
@@ -54,6 +55,7 @@ public class SdatParser {
 
     /**
      * Gets The DocumentID from the sdat file
+     *
      * @return document id
      */
     public String getDocumentID() {
@@ -68,6 +70,7 @@ public class SdatParser {
 
     /**
      * Gets The Observations from the sdat file
+     *
      * @return obsevations
      */
     public Map<Integer, BigDecimal> getObservation() {
@@ -89,6 +92,7 @@ public class SdatParser {
 
     /**
      * Gets The Resolution from the sdat file
+     *
      * @return resolution
      */
     public String getResolution() {
@@ -104,6 +108,7 @@ public class SdatParser {
 
     /**
      * Gets The Interval from the sdat file for use in getIntervalStartTime and getIntervalEndTime
+     *
      * @return interval from the sdat file
      */
     private Element getInterval() {
@@ -113,6 +118,7 @@ public class SdatParser {
 
     /**
      * Gets The Interval StartTime from the sdat file
+     *
      * @return starttime interval
      */
     public LocalDateTime getIntervalStartTime() {
@@ -122,6 +128,7 @@ public class SdatParser {
 
     /**
      * Gets The Interval EndTime from the sdat file
+     *
      * @return endtime interval
      */
     public LocalDateTime getIntervalEndTime() {

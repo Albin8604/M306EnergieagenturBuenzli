@@ -16,6 +16,7 @@ public enum Extensions {
 
     /**
      * Returns the chosen extension as an ExtensionFilter
+     *
      * @return chosen extension as an ExtensionFilter
      */
     public FileChooser.ExtensionFilter getExtensionFilter() {
