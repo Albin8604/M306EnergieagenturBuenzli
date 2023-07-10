@@ -1,4 +1,4 @@
-module ICTSkills {
+module EnergieagenturBuenzli {
     requires javafx.graphics;
     requires jakarta.persistence;
     requires java.naming;
