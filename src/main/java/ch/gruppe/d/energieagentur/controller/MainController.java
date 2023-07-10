@@ -109,9 +109,6 @@ public class MainController extends Controller {
                 fileManager instanceof ESLManager ? ESLManager.purchased : SDATManager.purchased,
                 isKwH
         ));
-
-        System.out.println(SDATManager.produced.size());
-        System.out.println(SDATManager.purchased.size());
     }
 
     /**

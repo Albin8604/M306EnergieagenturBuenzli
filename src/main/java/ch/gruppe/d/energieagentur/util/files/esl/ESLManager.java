@@ -61,6 +61,10 @@ public class ESLManager implements FileManager {
         List<ESL> eslList = new ArrayList<>();
 
         for (File file : Objects.requireNonNull(eslFolder.listFiles())) {
+            if (file.getName().toUpperCase().contains("DS_Store".toUpperCase())){
+                continue;
+            }
+
             try {
                 eslList.add((ESL) mar.unmarshal(file));
             } catch (JAXBException e) {
