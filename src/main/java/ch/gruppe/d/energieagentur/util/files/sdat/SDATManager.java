@@ -15,8 +15,8 @@ import java.util.TreeMap;
  * This class is used to manage all the Sdat data
  */
 public class SDATManager implements FileManager {
-    public static final Map<LocalDateTime, BigDecimal> PRODUCED = new TreeMap<>();
-    public static final Map<LocalDateTime, BigDecimal> PURCHASED = new TreeMap<>();
+    public static Map<LocalDateTime, BigDecimal> produced;
+    public static Map<LocalDateTime, BigDecimal> purchased;
 
     private boolean isKwH = true;
 
@@ -38,8 +38,8 @@ public class SDATManager implements FileManager {
         }
 
         //clearing maps before filling them
-        PRODUCED.clear();
-        PURCHASED.clear();
+        produced = new TreeMap<>();
+        purchased = new TreeMap<>();
 
         //going through all files
         for (File file : files) {
@@ -76,17 +76,19 @@ public class SDATManager implements FileManager {
                     );
                 }
 
+                count++;
+
                 try {
                     if (isPurchased) {
-                        PURCHASED.put(key, value);
+                        purchased.put(key, value);
                     } else {
-                        PRODUCED.put(key, value);
+                        produced.put(key, value);
                     }
                 }catch (NullPointerException e){
                     return;
                 }
 
-                count++;
+
             }
         }
     }

@@ -1,6 +1,5 @@
 package ch.gruppe.d.energieagentur.controller;
 
-import ch.gruppe.d.energieagentur.assets.Assets;
 import ch.gruppe.d.energieagentur.component.LineChartComponent;
 import ch.gruppe.d.energieagentur.model.uiModel.ValuesModel;
 import ch.gruppe.d.energieagentur.util.Date.Formatter;
@@ -15,7 +14,6 @@ import ch.gruppe.d.energieagentur.util.files.export.model.Zaehlerstand;
 import ch.gruppe.d.energieagentur.util.files.sdat.SDATManager;
 import ch.gruppe.d.energieagentur.util.ui.UIAlertMsg;
 import ch.gruppe.d.energieagentur.util.ui.UIHelper;
-import javafx.application.Platform;
 import javafx.embed.swing.SwingNode;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
@@ -24,8 +22,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
@@ -33,7 +29,6 @@ import javafx.stage.Stage;
 
 import javax.xml.bind.JAXBException;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.math.BigDecimal;
 import java.net.URISyntaxException;
@@ -43,6 +38,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 import static ch.gruppe.d.energieagentur.Config.START_FROM_DATE;
 import static ch.gruppe.d.energieagentur.Config.START_TO_DATE;
@@ -70,6 +66,7 @@ public class MainController extends Controller {
     private int lastValue = -1;
     private LocalDate lastFromDate = LocalDate.now().plusDays(1);
     private LocalDate lastToDate = LocalDate.now().plusDays(1);
+    private boolean diagramUpdated = false;
 
     /**
      * Initialization method of this class.
@@ -117,8 +114,8 @@ public class MainController extends Controller {
 
         //sets the chart
         swingNode.setContent(new LineChartComponent(
-                fileManager instanceof ESLManager ? ESLManager.PRODUCED : SDATManager.PRODUCED,
-                fileManager instanceof ESLManager ? ESLManager.PURCHASED : SDATManager.PURCHASED,
+                fileManager instanceof ESLManager ? ESLManager.produced : SDATManager.produced,
+                fileManager instanceof ESLManager ? ESLManager.purchased : SDATManager.purchased,
                 isKwH
         ));
     }
@@ -131,6 +128,24 @@ public class MainController extends Controller {
      * @throws FileNotFoundException
      */
     private void updateDiagram() throws URISyntaxException, JAXBException, FileNotFoundException {
+
+        //to disable multiple method calls in short time
+        if (diagramUpdated){
+            return;
+        }
+
+        diagramUpdated = true;
+
+        new Thread(() -> {
+            try {
+                Thread.sleep(TimeUnit.SECONDS.toMillis(1));
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            diagramUpdated = false;
+        }).start();
+
+
         final int value = valuesComboBox.getSelectionModel().getSelectedItem().getValue();
 
         //has the old value been changed
@@ -219,23 +234,6 @@ public class MainController extends Controller {
             return getStandardESLFolder();
         }
         return eslFolder;
-    }
-
-    /**
-     * This method fills the given map into the given series
-     *
-     * @param data   given map
-     * @param series given series
-     */
-    private void fillDataIntoSeries(Map<LocalDateTime, BigDecimal> data, XYChart.Series<String, Number> series) {
-        series.getData().clear();
-
-        for (Map.Entry<LocalDateTime, BigDecimal> dataEntry : data.entrySet()) {
-            series.getData().add(new XYChart.Data<>(
-                    Formatter.formatDateTime(dataEntry.getKey()),
-                    dataEntry.getValue()
-            ));
-        }
     }
 
     /**
@@ -443,19 +441,19 @@ public class MainController extends Controller {
         final List<JSONExport> jsonExportData = new ArrayList<>();
 
         //creating the Zaehlerstand arrays to be able to store each value
-        final Zaehlerstand[] producedZaehlerstandArray = new Zaehlerstand[ESLManager.PRODUCED.size()];
-        final Zaehlerstand[] purchasedZaehlerstandArray = new Zaehlerstand[ESLManager.PURCHASED.size()];
+        final Zaehlerstand[] producedZaehlerstandArray = new Zaehlerstand[ESLManager.produced.size()];
+        final Zaehlerstand[] purchasedZaehlerstandArray = new Zaehlerstand[ESLManager.purchased.size()];
 
         //counter for the arrays
         int producedCounter = 0;
         int purchasedCounter = 0;
 
         //filling the data
-        for (Map.Entry<LocalDateTime, BigDecimal> producedESLEntrySet : ESLManager.PRODUCED.entrySet()) {
+        for (Map.Entry<LocalDateTime, BigDecimal> producedESLEntrySet : ESLManager.produced.entrySet()) {
             producedZaehlerstandArray[producedCounter++] = new Zaehlerstand(producedESLEntrySet.getKey(), producedESLEntrySet.getValue().doubleValue());
         }
 
-        for (Map.Entry<LocalDateTime, BigDecimal> purchasedESLEntrySet : ESLManager.PURCHASED.entrySet()) {
+        for (Map.Entry<LocalDateTime, BigDecimal> purchasedESLEntrySet : ESLManager.purchased.entrySet()) {
             purchasedZaehlerstandArray[purchasedCounter++] = new Zaehlerstand(purchasedESLEntrySet.getKey(), purchasedESLEntrySet.getValue().doubleValue());
         }
 
@@ -484,11 +482,11 @@ public class MainController extends Controller {
         final List<CSVExport> purchasedCSVExportList = new ArrayList<>();
 
         //filling the lists
-        for (Map.Entry<LocalDateTime, BigDecimal> producedESLEntrySet : ESLManager.PRODUCED.entrySet()) {
+        for (Map.Entry<LocalDateTime, BigDecimal> producedESLEntrySet : ESLManager.produced.entrySet()) {
             producedCSVExportList.add(new CSVExport(producedESLEntrySet.getKey(), producedESLEntrySet.getValue()));
         }
 
-        for (Map.Entry<LocalDateTime, BigDecimal> purchasedESLEntrySet : ESLManager.PURCHASED.entrySet()) {
+        for (Map.Entry<LocalDateTime, BigDecimal> purchasedESLEntrySet : ESLManager.purchased.entrySet()) {
             purchasedCSVExportList.add(new CSVExport(purchasedESLEntrySet.getKey(), purchasedESLEntrySet.getValue()));
         }
 

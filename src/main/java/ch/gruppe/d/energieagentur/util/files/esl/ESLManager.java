@@ -13,11 +13,9 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.HashMap;
 import java.util.TreeMap;
 
 /**
@@ -36,8 +34,8 @@ public class ESLManager implements FileManager {
     private static final String PURCHASED_LOW_FARE_OBIS_CODE = "1-1:1.8.2";
     private static final String PRODUCED_HIGH_FARE_OBIS_CODE = "1-1:2.8.1";
     private static final String PRODUCED_LOW_FARE_OBIS_CODE = "1-1:2.8.2";
-    public static final Map<LocalDateTime, BigDecimal> PRODUCED = new TreeMap<>();
-    public static final Map<LocalDateTime, BigDecimal> PURCHASED = new TreeMap<>();
+    public static Map<LocalDateTime, BigDecimal> produced;
+    public static Map<LocalDateTime, BigDecimal> purchased;
 
     @Override
     public void readFolder(File eslFolder, LocalDate from, LocalDate to, boolean readAll) throws IllegalArgumentException, JAXBException {
@@ -56,8 +54,8 @@ public class ESLManager implements FileManager {
         }
 
         //clearing maps before filling them
-        PRODUCED.clear();
-        PURCHASED.clear();
+        produced = new TreeMap<>();
+        purchased = new TreeMap<>();
 
         //reads all ESL files into ESL objects
         List<ESL> eslList = new ArrayList<>();
@@ -83,11 +81,11 @@ public class ESLManager implements FileManager {
                 for (ValueRow valueRow : timePeriod.getValueRowList()) {
                     if (valueRow.getObis().equalsIgnoreCase(PRODUCED_HIGH_FARE_OBIS_CODE) ||
                             valueRow.getObis().equalsIgnoreCase(PRODUCED_LOW_FARE_OBIS_CODE)) {
-                        tempProducedValue = addElementToMap(timePeriod.getEnd(), tempProducedValue, valueRow.getValue(), PRODUCED);
+                        tempProducedValue = addElementToMap(timePeriod.getEnd(), tempProducedValue, valueRow.getValue(), produced);
                     }
                     if (valueRow.getObis().equalsIgnoreCase(PURCHASED_HIGH_FARE_OBIS_CODE) ||
                             valueRow.getObis().equalsIgnoreCase(PURCHASED_LOW_FARE_OBIS_CODE)) {
-                        tempPurchasedValue = addElementToMap(timePeriod.getEnd(), tempPurchasedValue, valueRow.getValue(), PURCHASED);
+                        tempPurchasedValue = addElementToMap(timePeriod.getEnd(), tempPurchasedValue, valueRow.getValue(), purchased);
                     }
                 }
             }
