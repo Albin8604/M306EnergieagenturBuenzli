@@ -1,5 +1,7 @@
 package ch.gruppe.d.energieagentur.util.files.xml.model.adapter;
 
+import ch.gruppe.d.energieagentur.Config;
+
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -16,7 +18,7 @@ public class LocalDateTimeAdapter extends XmlAdapter<String, LocalDateTime> {
      * @throws Exception Exception
      */
     @Override
-    public LocalDateTime unmarshal(String s) throws Exception {
+    public LocalDateTime unmarshal(String s) {
         return LocalDateTime.parse(s, DateTimeFormatter.ofPattern(Config.ESL_DATE_FORMAT));
     }
 
@@ -28,7 +30,7 @@ public class LocalDateTimeAdapter extends XmlAdapter<String, LocalDateTime> {
      * @throws Exception Exception
      */
     @Override
-    public String marshal(LocalDateTime localDateTime) throws Exception {
+    public String marshal(LocalDateTime localDateTime) {
         return localDateTime.format(DateTimeFormatter.ofPattern(Config.ESL_DATE_FORMAT));
     }
 }

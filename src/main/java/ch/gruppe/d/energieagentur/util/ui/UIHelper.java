@@ -6,31 +6,32 @@ import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.image.ImageView;
 
 /**
- * This class is a helper class for the UI
+ * This class is used as a helper for the JavaFx UI
  */
 public class UIHelper {
-
     /**
-     * This method creates a spinner
-     *
-     * @param alertType   AlertType
-     * @param uiAlertMsg   UIAlertMsg
-     * @return Spinner<Integer>
+     * This method creates and shows an alert
+     * @param alertType given alert type
+     * @param uiAlertMsg given alert message
      */
     public static void createAndShowAlert(Alert.AlertType alertType, UIAlertMsg uiAlertMsg) {
         createAndShowAlert(alertType, uiAlertMsg.msg);
     }
 
+    /**
+     * This method creates and shows an alert with a custom message
+     * @param alertType given alert type
+     * @param uiAlertMsg given alert message
+     */
     public static void createAndShowAlert(Alert.AlertType alertType, String uiAlertMsg) {
         createAndShowAlert(alertType, uiAlertMsg, null);
     }
 
     /**
-     * This method creates and shows an alert
-     *
-     * @param alertType   Alert.AlertType
-     * @param uiAlertMsg  String
-     * @param graphic     ImageView
+     * This method creates and shows an alert with a custom message and custom graphic
+     * @param alertType given alert type
+     * @param uiAlertMsg given alert message
+     * @param graphic given graphic
      */
     public static void createAndShowAlert(Alert.AlertType alertType, String uiAlertMsg, ImageView graphic) {
 
@@ -57,13 +58,12 @@ public class UIHelper {
     }
 
     /**
-     * This method creates and shows an alert
-     *
-     * @param feedbackType Alert.AlertType
-     * @param graphic      ImageView
-     * @param title        String
-     * @param headerText   String
-     * @param bodyText     String
+     * This method creates and shows an alert with a custom message, custom graphic, custom title, custom headerText and custom bodyText
+     * @param feedbackType given alert type
+     * @param graphic given graphic
+     * @param title given title
+     * @param headerText given header text
+     * @param bodyText given body text
      */
     private static void alert(Alert.AlertType feedbackType, ImageView graphic, String title, String headerText, String bodyText) {
         Alert alert = new Alert(feedbackType);
@@ -76,31 +76,5 @@ public class UIHelper {
         }
 
         alert.showAndWait();
-    }
-
-    /**
-     * This method creates a spinner
-     *
-     * @param min      int
-     * @param max      int
-     * @param startWith int
-     * @return Spinner<Integer>
-     */
-    public static void initIntegerSpinner(Spinner<Integer> spinner, int min, int max, int startWith) {
-        SpinnerValueFactory<Integer> spinnerValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(min, max, startWith);
-        spinner.setValueFactory(spinnerValueFactory);
-    }
-
-    /**
-     * This method creates a spinner
-     *
-     * @param min      double
-     * @param max      double
-     * @param startWith double
-     * @return Spinner<Double>
-     */
-    public static void initDoubleSpinner(Spinner<Double> spinner, double min, double max, double startWith) {
-        SpinnerValueFactory<Double> spinnerValueFactory = new SpinnerValueFactory.DoubleSpinnerValueFactory(min, max, startWith);
-        spinner.setValueFactory(spinnerValueFactory);
     }
 }

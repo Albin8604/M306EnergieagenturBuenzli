@@ -9,16 +9,14 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 
 /**
- * This class is a helper for FXML files
+ * This class helps with displaying the fxml
  */
 public class FXMLHelper {
-
     /**
-     * This method loads a FXML file
-     *
-     * @param asset Assets
-     * @param <T>   T
-     * @return T
+     * loads the fxml and calls the init method from its controller
+     * @param asset the fxml
+     * @return the object from the fxml
+     * @param <T> what kind of object to expect
      */
     public static <T> T load(Assets asset) {
         FXMLLoader fxmlLoader = new FXMLLoader(asset.asUrl());
@@ -33,51 +31,6 @@ public class FXMLHelper {
             }
         } catch (IOException | UnsupportedOperationException e) {
             e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-
-        return result;
-    }
-
-    /**
-     * This method loads a FXML file
-     *
-     * @param asset Assets
-     * @param <T>  T
-     * @return T
-     */
-    public static <T> T loadModelWithoutController(Assets asset) {
-        FXMLLoader fxmlLoader = new FXMLLoader(asset.asUrl());
-        T result;
-
-        try {
-            result = fxmlLoader.load();
-        } catch (IOException | UnsupportedOperationException e) {
-            throw new RuntimeException(e);
-        }
-
-        return result;
-    }
-
-    /**
-     * This method loads a FXML file
-     *
-     * @param file String
-     * @param <T>  T
-     * @return T
-     */
-    public static <T> T loadModelWithoutController(String file) {
-        FXMLLoader fxmlLoader = null;
-        try {
-            fxmlLoader = new FXMLLoader(new File(file).toURI().toURL());
-        } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
-        }
-        T result;
-
-        try {
-            result = fxmlLoader.load();
-        } catch (IOException | UnsupportedOperationException e) {
             throw new RuntimeException(e);
         }
 

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Scene?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
@@ -9,76 +10,66 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.Scene?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.stage.Stage?>
-<Stage fx:id="stage" title="Zählerdaten" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1"
-       fx:controller="ch.gruppe.d.energieagentur.controller.MainController">
+
+<Stage fx:id="stage" title="Zählerdaten" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.gruppe.d.energieagentur.controller.MainController">
     <scene>
         <Scene stylesheets="@css/standartStyle.css">
             <root>
-                <BorderPane fx:id="mainBorderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-                            minWidth="-Infinity" prefHeight="670.0" prefWidth="1200.0">
+                <BorderPane fx:id="mainBorderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="670.0" prefWidth="1200.0">
                     <top>
                         <BorderPane BorderPane.alignment="CENTER">
                             <left>
-                                <VBox spacing="5.0" BorderPane.alignment="CENTER">
+                                <VBox alignment="CENTER" spacing="5.0" BorderPane.alignment="CENTER">
                                     <children>
-                                        <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false"
-                                                onAction="#selectSDATFolder" text="Select SDAT Folder"/>
-                                        <Button layoutX="10.0" layoutY="10.0" maxWidth="1.7976931348623157E308"
-                                                mnemonicParsing="false" onAction="#selectESLFolder"
-                                                text="Select ESL Folder"/>
+                                        <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#selectSDATFolder" text="Select SDAT Folder" />
+                                        <Button layoutX="10.0" layoutY="10.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#selectESLFolder" text="Select ESL Folder" />
+                              <Button fx:id="jsonExportBtn" mnemonicParsing="false" onAction="#jsonExport" text="Export to JSON" />
+                              <Button fx:id="csvExportBtn" layoutX="10.0" layoutY="72.0" mnemonicParsing="false" onAction="#csvExport" text="Export to CSV" />
                                     </children>
                                 </VBox>
                             </left>
                             <right>
                                 <HBox BorderPane.alignment="CENTER">
                                     <children>
-                                        <ComboBox fx:id="valuesComboBox" prefWidth="150.0"/>
+                                        <ComboBox fx:id="valuesComboBox" prefWidth="150.0" />
                                     </children>
                                 </HBox>
                             </right>
                             <center>
                                 <BorderPane BorderPane.alignment="CENTER">
                                     <left>
-                                        <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
-                                                    BorderPane.alignment="CENTER">
+                                        <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" BorderPane.alignment="CENTER">
                                             <center>
-                                                <HBox alignment="CENTER" BorderPane.alignment="CENTER">
+                                                <HBox alignment="TOP_CENTER" prefHeight="74.0" prefWidth="220.0" BorderPane.alignment="CENTER">
                                                     <children>
-                                                        <Label text="From: "/>
-                                                        <DatePicker fx:id="fromDatePicker" onAction="#changeFromDate"/>
+                                                        <Label text="From: " />
+                                                        <DatePicker fx:id="fromDatePicker" onAction="#changeFromDate" />
                                                     </children>
                                                     <BorderPane.margin>
-                                                        <Insets left="5.0" right="5.0"/>
+                                                        <Insets left="5.0" right="5.0" />
                                                     </BorderPane.margin>
                                                 </HBox>
                                             </center>
                                             <left>
                                                 <HBox spacing="10.0" BorderPane.alignment="CENTER">
                                                     <children>
-                                                        <Button mnemonicParsing="false" onAction="#fromMonthBackward"
-                                                                styleClass="skipButton" text="&lt;&lt;"/>
-                                                        <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false"
-                                                                onAction="#fromDayBackward" styleClass="skipButton"
-                                                                text="&lt;"/>
+                                                        <Button mnemonicParsing="false" onAction="#fromMonthBackward" styleClass="skipButton" text="&lt;&lt;" />
+                                                        <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#fromDayBackward" styleClass="skipButton" text="&lt;" />
                                                     </children>
                                                 </HBox>
                                             </left>
                                             <right>
                                                 <HBox spacing="10.0" BorderPane.alignment="CENTER">
                                                     <children>
-                                                        <Button mnemonicParsing="false" onAction="#fromDayForward"
-                                                                styleClass="skipButton" text="&gt;"/>
-                                                        <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false"
-                                                                onAction="#fromMonthForward" styleClass="skipButton"
-                                                                text="&gt;&gt;"/>
+                                                        <Button mnemonicParsing="false" onAction="#fromDayForward" styleClass="skipButton" text="&gt;" />
+                                                        <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#fromMonthForward" styleClass="skipButton" text="&gt;&gt;" />
                                                     </children>
                                                 </HBox>
                                             </right>
                                             <BorderPane.margin>
-                                                <Insets left="5.0" right="5.0"/>
+                                                <Insets left="5.0" right="5.0" />
                                             </BorderPane.margin>
                                         </BorderPane>
                                     </left>
@@ -87,41 +78,35 @@
                                             <left>
                                                 <HBox spacing="10.0" BorderPane.alignment="CENTER">
                                                     <children>
-                                                        <Button mnemonicParsing="false" onAction="#toMonthBackward"
-                                                                styleClass="skipButton" text="&lt;&lt;"/>
-                                                        <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false"
-                                                                onAction="#toDayBackward" styleClass="skipButton"
-                                                                text="&lt;"/>
+                                                        <Button mnemonicParsing="false" onAction="#toMonthBackward" styleClass="skipButton" text="&lt;&lt;" />
+                                                        <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#toDayBackward" styleClass="skipButton" text="&lt;" />
                                                     </children>
                                                     <BorderPane.margin>
-                                                        <Insets/>
+                                                        <Insets />
                                                     </BorderPane.margin>
                                                 </HBox>
                                             </left>
                                             <center>
-                                                <HBox alignment="CENTER" BorderPane.alignment="CENTER">
+                                                <HBox alignment="TOP_CENTER" BorderPane.alignment="CENTER">
                                                     <children>
-                                                        <Label text="To: "/>
-                                                        <DatePicker fx:id="toDatePicker" onAction="#changeToDate"/>
+                                                        <Label text="To: " />
+                                                        <DatePicker fx:id="toDatePicker" onAction="#changeToDate" />
                                                     </children>
                                                     <BorderPane.margin>
-                                                        <Insets left="5.0" right="5.0"/>
+                                                        <Insets left="5.0" right="5.0" />
                                                     </BorderPane.margin>
                                                 </HBox>
                                             </center>
                                             <right>
                                                 <HBox spacing="10.0" BorderPane.alignment="CENTER">
                                                     <children>
-                                                        <Button mnemonicParsing="false" onAction="#toDayForward"
-                                                                styleClass="skipButton" text="&gt;"/>
-                                                        <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false"
-                                                                onAction="#toMonthForward" styleClass="skipButton"
-                                                                text="&gt;&gt;"/>
+                                                        <Button mnemonicParsing="false" onAction="#toDayForward" styleClass="skipButton" text="&gt;" />
+                                                        <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#toMonthForward" styleClass="skipButton" text="&gt;&gt;" />
                                                     </children>
                                                 </HBox>
                                             </right>
                                             <BorderPane.margin>
-                                                <Insets left="5.0" right="5.0"/>
+                                                <Insets left="5.0" right="5.0" />
                                             </BorderPane.margin>
                                         </BorderPane>
                                     </right>
@@ -132,22 +117,18 @@
                                                     <center>
                                                         <Label text="Day" BorderPane.alignment="CENTER">
                                                             <BorderPane.margin>
-                                                                <Insets left="5.0" right="5.0"/>
+                                                                <Insets left="5.0" right="5.0" />
                                                             </BorderPane.margin>
                                                         </Label>
                                                     </center>
                                                     <right>
-                                                        <Button mnemonicParsing="false" onAction="#dayForward"
-                                                                styleClass="skipButton" text="&gt;"
-                                                                BorderPane.alignment="CENTER"/>
+                                                        <Button mnemonicParsing="false" onAction="#dayForward" styleClass="skipButton" text="&gt;" BorderPane.alignment="CENTER" />
                                                     </right>
                                                     <left>
-                                                        <Button mnemonicParsing="false" onAction="#dayBackward"
-                                                                styleClass="skipButton" text="&lt;"
-                                                                BorderPane.alignment="CENTER"/>
+                                                        <Button mnemonicParsing="false" onAction="#dayBackward" styleClass="skipButton" text="&lt;" BorderPane.alignment="CENTER" />
                                                     </left>
                                                     <BorderPane.margin>
-                                                        <Insets left="5.0" right="5.0"/>
+                                                        <Insets left="5.0" right="5.0" />
                                                     </BorderPane.margin>
                                                 </BorderPane>
                                             </left>
@@ -156,27 +137,23 @@
                                                     <center>
                                                         <Label text="Month" BorderPane.alignment="CENTER">
                                                             <BorderPane.margin>
-                                                                <Insets left="5.0" right="5.0"/>
+                                                                <Insets left="5.0" right="5.0" />
                                                             </BorderPane.margin>
                                                         </Label>
                                                     </center>
                                                     <right>
-                                                        <Button mnemonicParsing="false" onAction="#monthForward"
-                                                                styleClass="skipButton" text="&gt;"
-                                                                BorderPane.alignment="CENTER"/>
+                                                        <Button mnemonicParsing="false" onAction="#monthForward" styleClass="skipButton" text="&gt;" BorderPane.alignment="CENTER" />
                                                     </right>
                                                     <left>
-                                                        <Button mnemonicParsing="false" onAction="#monthBackward"
-                                                                styleClass="skipButton" text="&lt;"
-                                                                BorderPane.alignment="CENTER"/>
+                                                        <Button mnemonicParsing="false" onAction="#monthBackward" styleClass="skipButton" text="&lt;" BorderPane.alignment="CENTER" />
                                                     </left>
                                                     <BorderPane.margin>
-                                                        <Insets left="5.0" right="5.0"/>
+                                                        <Insets left="5.0" right="5.0" />
                                                     </BorderPane.margin>
                                                 </BorderPane>
                                             </right>
                                             <BorderPane.margin>
-                                                <Insets top="15.0"/>
+                                                <Insets top="15.0" />
                                             </BorderPane.margin>
                                         </BorderPane>
                                     </bottom>
@@ -185,14 +162,11 @@
                         </BorderPane>
                     </top>
                     <padding>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                     </padding>
                     <center>
-                        <StackPane fx:id="mainStackPane" prefHeight="150.0" prefWidth="200.0"
-                                   BorderPane.alignment="CENTER">
-                            <Rectangle fx:id="selectRect" fill="DODGERBLUE" height="0.0" mouseTransparent="true"
-                                       opacity="0.3" stroke="#002966" strokeType="INSIDE" strokeWidth="3.0" width="0.0"
-                                       x="0.0" y="0.0" StackPane.alignment="TOP_LEFT"/>
+                        <StackPane fx:id="mainStackPane" prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                            <Rectangle fx:id="selectRect" fill="DODGERBLUE" height="0.0" mouseTransparent="true" opacity="0.3" stroke="#002966" strokeType="INSIDE" strokeWidth="3.0" width="0.0" x="0.0" y="0.0" StackPane.alignment="TOP_LEFT" />
                         </StackPane>
                     </center>
                 </BorderPane>

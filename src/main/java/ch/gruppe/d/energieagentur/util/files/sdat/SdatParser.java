@@ -1,6 +1,6 @@
 package ch.gruppe.d.energieagentur.util.files.sdat;
 
-import ch.gruppe.d.energieagentur.util.files.xml.model.adapter.Config;
+import ch.gruppe.d.energieagentur.Config;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -18,25 +18,19 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * This class is used to parse the sdat file
+ * This class parses the Sdat data
  */
 public class SdatParser {
     private final Document document;
 
-    public SdatParser(String filePath) {
-        this(new File(filePath));
-    }
-
-
     /**
-     * Creates a SdatParser object from a given file
-     *
+     * Constructor with file parameter
+     * saves the important data
      * @param file given file
      */
-    public SdatParser(File file) {
+    public SdatParser(File file) throws IllegalArgumentException{
         //Sets Up the DocumentBuilderFactory and dataElement
         try {
-            // String filePath = "src/main/resources/SDAT-Files/20190313_093127_12X-0000001216-O_E66_12X-LIPPUNEREM-T_ESLEVU121963_-279617263.xml";
 
             // Create a File object with the specified file path
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -50,7 +44,8 @@ public class SdatParser {
             // Get the first MeteringData element
             dataElement = (Element) dataList.item(0);
         } catch (ParserConfigurationException | SAXException | IOException e) {
-            throw new RuntimeException(e);
+
+            throw new IllegalArgumentException(e);
         }
     }
 
@@ -58,9 +53,8 @@ public class SdatParser {
     private final Element dataElement;
 
     /**
-     * Gets the IntervalStartTime from the sdat file
-     *
-     * @return IntervalStartTime
+     * Gets The DocumentID from the sdat file
+     * @return document id
      */
     public String getDocumentID() {
         //DocumentID
@@ -73,9 +67,8 @@ public class SdatParser {
     }
 
     /**
-     * Gets the IntervalStartTime from the sdat file
-     *
-     * @return IntervalStartTime
+     * Gets The Observations from the sdat file
+     * @return obsevations
      */
     public Map<Integer, BigDecimal> getObservation() {
         //Observation
@@ -95,9 +88,8 @@ public class SdatParser {
     }
 
     /**
-     * Gets the Resolution from the sdat file
-     *
-     * @return Resolution
+     * Gets The Resolution from the sdat file
+     * @return resolution
      */
     public String getResolution() {
         //resolution
@@ -109,10 +101,10 @@ public class SdatParser {
         return resolution + timeUnit;
     }
 
+
     /**
-     * Gets the MeteringPointID from the sdat file
-     *
-     * @return MeteringPointID
+     * Gets The Interval from the sdat file for use in getIntervalStartTime and getIntervalEndTime
+     * @return interval from the sdat file
      */
     private Element getInterval() {
         //Interval
@@ -120,9 +112,8 @@ public class SdatParser {
     }
 
     /**
-     * Gets the MeteringPointID from the sdat file
-     *
-     * @return MeteringPointID
+     * Gets The Interval StartTime from the sdat file
+     * @return starttime interval
      */
     public LocalDateTime getIntervalStartTime() {
         //StartDateTime
@@ -130,12 +121,12 @@ public class SdatParser {
     }
 
     /**
-     * Gets the MeteringPointID from the sdat file
-     *
-     * @return MeteringPointID
+     * Gets The Interval EndTime from the sdat file
+     * @return endtime interval
      */
     public LocalDateTime getIntervalEndTime() {
         //EndDateTime
         return LocalDateTime.parse(getInterval().getElementsByTagName("rsm:EndDateTime").item(0).getTextContent(), DateTimeFormatter.ofPattern(Config.SDAT_DATE_FORMAT));
     }
+
 }
