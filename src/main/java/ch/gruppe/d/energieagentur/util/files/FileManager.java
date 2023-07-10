@@ -1,11 +1,14 @@
 package ch.gruppe.d.energieagentur.util.files;
 
+import javax.xml.bind.JAXBException;
 import java.io.File;
-import java.util.List;
+import java.time.LocalDate;
 
-public interface FileManager<T> {
-    List<T> read(File file);
+public interface FileManager {
+    default void readFolder(File eslFolder, LocalDate from, LocalDate to) throws JAXBException {
+        throw new UnsupportedOperationException();
+    }
 
-    void write(List<T> data, String path);
+    ;
 
 }

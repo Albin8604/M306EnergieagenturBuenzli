@@ -11,10 +11,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "ESLBillingData")
 public class ESL {
-    @XmlElement(name = "Header",type = Header.class)
+    @XmlElement(name = "Header", type = Header.class)
     private Header header;
 
-    @XmlElement(name = "Meter",type = Meter.class)
+    @XmlElement(name = "Meter", type = Meter.class)
     private Meter meter;
 
     public ESL() {

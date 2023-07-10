@@ -8,7 +8,7 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
-public class JSONFileManager<T> implements FileManager<T> {
+public class JSONFileManager<T> implements ExportFileManager<T> {
 
     private final Class<T> tClass;
 

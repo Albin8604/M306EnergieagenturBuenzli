@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 //https://www.baeldung.com/opencsv
-public class CSVFileManager<T> implements FileManager<T> {
+public class CSVFileManager<T> implements ExportFileManager<T> {
     private static final char SEPARATOR = ',';
     private final Class<T> tClass;
 

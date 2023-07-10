@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class CSVFileManagerHandMade<T> implements FileManager<T> {
+public class CSVFileManagerHandMade<T> implements ExportFileManager<T> {
 
     private final Class<T> tClass;
 
