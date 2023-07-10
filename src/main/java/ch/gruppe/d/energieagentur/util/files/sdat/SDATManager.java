@@ -25,26 +25,32 @@ public class SDATManager implements FileManager {
      *
      * @param sdatFolder given Sdat folder
      */
-    public void readFolder(File sdatFolder, LocalDate from, LocalDate to) {
+    @Override
+    public void readFolder(File sdatFolder, LocalDate from, LocalDate to, boolean readAll) throws IllegalArgumentException {
         if (sdatFolder == null || !sdatFolder.isDirectory() || sdatFolder.listFiles() == null || Objects.requireNonNull(sdatFolder.listFiles()).length == 0) {
-            throw new RuntimeException("Error reading folder");
+            throw new IllegalArgumentException("Error reading folder");
         }
+
         File[] files = sdatFolder.listFiles();
 
-        to = to.plusDays(1);
+        if (to != null) {
+            to = to.plusDays(1);
+        }
 
         //clearing maps before filling them
         PRODUCED.clear();
         PURCHASED.clear();
 
+        //going through all files
         for (File file : files) {
             SdatParser sdatParser = new SdatParser(file);
 
+            //setting first parameters to be able to check if this file can be skipped
             final boolean isPurchased = sdatParser.getDocumentID().equalsIgnoreCase("742");
             final LocalDateTime start = sdatParser.getIntervalStartTime();
             final LocalDateTime end = sdatParser.getIntervalEndTime();
 
-            if (start.isBefore(from.atStartOfDay().minusMonths(1)) || end.isAfter(to.atStartOfDay().plusMonths(1))) {
+            if (!readAll && (start.isBefore(from.atStartOfDay().minusMonths(1)) || end.isAfter(to.atStartOfDay().plusMonths(1)))) {
                 continue;
             }
 
@@ -52,12 +58,13 @@ public class SDATManager implements FileManager {
 
             int count = 1;
 
+            //filling the data
             for (Map.Entry<Integer, BigDecimal> observation : sdatParser.getObservation().entrySet()) {
 
                 final LocalDateTime key = start.plusMinutes((long) resolutionInMin * count);
                 BigDecimal value = observation.getValue();
 
-                if (key.isBefore(from.atStartOfDay()) || key.isAfter(to.atStartOfDay())) {
+                if (!readAll && (key.isBefore(from.atStartOfDay()) || key.isAfter(to.atStartOfDay()))) {
                     continue;
                 }
 
@@ -69,10 +76,14 @@ public class SDATManager implements FileManager {
                     );
                 }
 
-                if (isPurchased) {
-                    PURCHASED.put(key, value);
-                } else {
-                    PRODUCED.put(key, value);
+                try {
+                    if (isPurchased) {
+                        PURCHASED.put(key, value);
+                    } else {
+                        PRODUCED.put(key, value);
+                    }
+                }catch (NullPointerException e){
+                    return;
                 }
 
                 count++;
@@ -80,6 +91,12 @@ public class SDATManager implements FileManager {
         }
     }
 
+    /**
+     * If unit isn't MIN it gets converted into Minutes
+     *
+     * @param interval given interval
+     * @return the value in minutes
+     */
     private int convertToMin(String interval) {
         String unit = extractUnit(interval);
         String value = interval.replaceAll(unit, "");
@@ -91,6 +108,12 @@ public class SDATManager implements FileManager {
         throw new RuntimeException("Unit " + unit + " not supported");
     }
 
+    /**
+     * Extracts the unit from given interval
+     *
+     * @param interval given interval
+     * @return unit of interval
+     */
     private String extractUnit(String interval) {
         char[] chars = interval.toCharArray();
 

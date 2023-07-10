@@ -8,6 +8,10 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Generic JSONFileManager used for Managing JSON Files as reading and writing
+ * @param <T>
+ */
 public class JSONFileManager<T> implements ExportFileManager<T> {
 
     private final Class<T> tClass;
@@ -44,16 +48,5 @@ public class JSONFileManager<T> implements ExportFileManager<T> {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    private String getContentFromFileAsString(File file) throws IOException {
-        List<String> allLines = new ArrayList<>();
-        StringBuilder stringBuilder = new StringBuilder();
-
-        Files.readAllLines(file.toPath());
-
-        stringBuilder.append(allLines);
-
-        return stringBuilder.toString();
     }
 }

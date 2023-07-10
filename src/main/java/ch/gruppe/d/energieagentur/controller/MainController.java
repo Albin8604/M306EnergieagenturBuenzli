@@ -1,24 +1,23 @@
 package ch.gruppe.d.energieagentur.controller;
 
 import ch.gruppe.d.energieagentur.assets.Assets;
+import ch.gruppe.d.energieagentur.component.LineChartComponent;
 import ch.gruppe.d.energieagentur.model.uiModel.ValuesModel;
-import ch.gruppe.d.energieagentur.util.Converter;
-import ch.gruppe.d.energieagentur.util.Date.DateHelper;
 import ch.gruppe.d.energieagentur.util.Date.Formatter;
+import ch.gruppe.d.energieagentur.util.files.FileManager;
+import ch.gruppe.d.energieagentur.util.files.chooser.ChooserManager;
 import ch.gruppe.d.energieagentur.util.files.chooser.Extensions;
 import ch.gruppe.d.energieagentur.util.files.esl.ESLManager;
-import ch.gruppe.d.energieagentur.util.files.FileManager;
+import ch.gruppe.d.energieagentur.util.files.export.model.CSVExport;
 import ch.gruppe.d.energieagentur.util.files.export.model.JSONExport;
 import ch.gruppe.d.energieagentur.util.files.export.model.SensorId;
 import ch.gruppe.d.energieagentur.util.files.export.model.Zaehlerstand;
 import ch.gruppe.d.energieagentur.util.files.sdat.SDATManager;
-import ch.gruppe.d.energieagentur.util.files.chooser.ChooserManager;
 import ch.gruppe.d.energieagentur.util.ui.UIAlertMsg;
 import ch.gruppe.d.energieagentur.util.ui.UIHelper;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
+import javafx.embed.swing.SwingNode;
 import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
@@ -30,7 +29,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import javax.xml.bind.JAXBException;
@@ -46,30 +44,32 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import static ch.gruppe.d.energieagentur.util.files.xml.model.adapter.Config.START_FROM_DATE;
-import static ch.gruppe.d.energieagentur.util.files.xml.model.adapter.Config.START_TO_DATE;
-import static ch.gruppe.d.energieagentur.util.ui.UIAlertMsg.MSG_NO_DATA_FOUND;
+import static ch.gruppe.d.energieagentur.Config.START_FROM_DATE;
+import static ch.gruppe.d.energieagentur.Config.START_TO_DATE;
 
 /**
  * This class is used as a Controller for the Main View
  */
 public class MainController extends Controller {
+    //diagram stuff
     private static final CategoryAxis X_AXIS = new CategoryAxis();
     private static final NumberAxis Y_AXIS = new NumberAxis();
-    private final XYChart.Series<String, Number> producedDataSeries = new XYChart.Series<>();
-    private final XYChart.Series<String, Number> purchasedDataSeries = new XYChart.Series<>();
+
+    //fxml objects
     public StackPane mainStackPane;
     public Rectangle selectRect;
     public Button jsonExportBtn;
     public Button csvExportBtn;
-    private int lastValue = -1;
-    private LocalDate lastFromDate = LocalDate.now().plusDays(1);
-    private LocalDate lastToDate = LocalDate.now().plusDays(1);
     public ComboBox<ValuesModel> valuesComboBox;
     public DatePicker fromDatePicker;
     public DatePicker toDatePicker;
     public Stage stage;
     public BorderPane mainBorderPane;
+
+    //last values
+    private int lastValue = -1;
+    private LocalDate lastFromDate = LocalDate.now().plusDays(1);
+    private LocalDate lastToDate = LocalDate.now().plusDays(1);
 
     /**
      * Initialization method of this class.
@@ -84,14 +84,10 @@ public class MainController extends Controller {
             X_AXIS.setLabel("Datum");
             X_AXIS.setAnimated(false);
 
-            producedDataSeries.setName("Einspeisung Netz");
-            purchasedDataSeries.setName("Bezug Netz");
-
             fromDatePicker.setValue(START_FROM_DATE);
             toDatePicker.setValue(START_TO_DATE);
 
             valuesComboBox.valueProperty().addListener((observableValue, valuesModel, t1) -> {
-                System.out.println(valuesComboBox.getSelectionModel().getSelectedItem().getName());
                 try {
                     updateDiagram();
                 } catch (URISyntaxException | JAXBException | FileNotFoundException e) {
@@ -107,34 +103,28 @@ public class MainController extends Controller {
     }
 
     /**
-     * Creates and shows the loading screen
-     * @throws URISyntaxException
-     * @throws FileNotFoundException
-     */
-    private void createLoadingScreen() throws URISyntaxException, FileNotFoundException {
-        final ImageView loading = new ImageView();
-
-        loading.setImage(new Image(new FileInputStream(new File(Assets.Loading.asUrl().toURI()))));
-
-        mainBorderPane.setCenter(loading);
-    }
-
-    /**
      * prepares and fills data in
+     *
      * @param fileManager file manager to be able to get the data
      * @throws Exception
      */
-    private void prepareAndFillData(FileManager fileManager) throws Exception {
+    private void prepareAndFillData(FileManager fileManager, SwingNode swingNode, boolean isKwH) throws Exception {
 
         //checks the instance of the fileManager
-        fileManager.readFolder(fileManager instanceof ESLManager ? getESLFolder() : getSdatFolder(), fromDatePicker.getValue(), toDatePicker.getValue());
+        fileManager.readFolder(fileManager instanceof ESLManager ? getESLFolder() : getSdatFolder(),
+                fromDatePicker.getValue(), toDatePicker.getValue(),
+                false);
 
-        fillDataIntoSeries(fileManager instanceof ESLManager ? ESLManager.PRODUCED : SDATManager.PRODUCED, producedDataSeries);
-        fillDataIntoSeries(fileManager instanceof ESLManager ? ESLManager.PURCHASED : SDATManager.PURCHASED, purchasedDataSeries);
+        //sets the chart
+        swingNode.setContent(new LineChartComponent(
+                fileManager instanceof ESLManager ? ESLManager.PRODUCED : SDATManager.PRODUCED,
+                fileManager instanceof ESLManager ? ESLManager.PURCHASED : SDATManager.PURCHASED,
+                isKwH
+        ));
     }
 
     /**
-     * This method updates the diagramm with new data
+     * This method updates the diagram with new data
      *
      * @throws URISyntaxException
      * @throws JAXBException
@@ -149,47 +139,55 @@ public class MainController extends Controller {
         }
 
         //creating objects needed for the diagram
-        final LineChart<String, Number> DATA_CHART = new LineChart<>(X_AXIS, Y_AXIS);
-
-        //config
-        DATA_CHART.setCreateSymbols(false);
-
-        createLoadingScreen();
+        final SwingNode SWING_CHART_NODE = new SwingNode();
 
         //filling diagram
-        new Thread(() -> {
-            try {
-                switch (value) {
-                    case 1 -> {
-                        Y_AXIS.setLabel("kWh");
-                        SDAT_MANAGER.setKwH(true);
-                        prepareAndFillData(SDAT_MANAGER);
-                    }
-                    case 2 -> {
-                        Y_AXIS.setLabel("kW");
-                        SDAT_MANAGER.setKwH(false);
-                        prepareAndFillData(SDAT_MANAGER);
-                    }
-                    default -> {
-                        Y_AXIS.setLabel("kWh");
-                        prepareAndFillData(ESL_MANAGER);
+        try {
+            switch (value) {
+                case 1 -> {
+                    SDAT_MANAGER.setKwH(true);
+
+                    //to prevent corrupt folder reading
+                    try {
+                        prepareAndFillData(SDAT_MANAGER, SWING_CHART_NODE, SDAT_MANAGER.isKwH());
+                    } catch (IllegalArgumentException e) {
+                        sdatFolder = getStandardSDATFolder();
+                        updateDiagram();
+                        throw new IllegalArgumentException(e);
                     }
                 }
+                case 2 -> {
+                    SDAT_MANAGER.setKwH(false);
 
-                //checks if no data has been found
-                if (producedDataSeries.getData().isEmpty() && purchasedDataSeries.getData().isEmpty()) {
-                    Platform.runLater(() -> mainBorderPane.setCenter(new Text(MSG_NO_DATA_FOUND.msg)));
-                } else {
-                    DATA_CHART.getData().add(producedDataSeries);
-                    DATA_CHART.getData().add(purchasedDataSeries);
-
-                    Platform.runLater(() -> mainBorderPane.setCenter(DATA_CHART));
+                    //to prevent corrupt folder reading
+                    try {
+                        prepareAndFillData(SDAT_MANAGER, SWING_CHART_NODE, SDAT_MANAGER.isKwH());
+                    } catch (IllegalArgumentException e) {
+                        sdatFolder = getStandardSDATFolder();
+                        updateDiagram();
+                        throw new IllegalArgumentException(e);
+                    }
                 }
+                default -> {
 
-            } catch (Exception e) {
-                Platform.runLater(() -> UIHelper.createAndShowAlert(Alert.AlertType.ERROR, UIAlertMsg.ERROR));
+                    //to prevent corrupt folder reading
+                    try {
+                        prepareAndFillData(ESL_MANAGER, SWING_CHART_NODE, true);
+                    } catch (IllegalArgumentException e) {
+                        eslFolder = getStandardESLFolder();
+                        updateDiagram();
+                        throw new IllegalArgumentException(e);
+                    }
+                }
             }
-        }).start();
+
+            mainBorderPane.setCenter(SWING_CHART_NODE);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            UIHelper.createAndShowAlert(Alert.AlertType.ERROR, UIAlertMsg.ERROR);
+        }
+
 
         //setting the last values
         lastValue = value;
@@ -265,11 +263,8 @@ public class MainController extends Controller {
      */
     public void selectSDATFolder() {
         sdatFolder = ChooserManager.getChoosedOpenFolder(stage);
-        try {
-            updateDiagram();
-        } catch (URISyntaxException | JAXBException | FileNotFoundException e) {
-            UIHelper.createAndShowAlert(Alert.AlertType.ERROR, UIAlertMsg.ERROR_READING_SDAT);
-        }
+
+        updateDiagramAndHandleExceptions();
     }
 
     /**
@@ -277,11 +272,8 @@ public class MainController extends Controller {
      */
     public void selectESLFolder() {
         eslFolder = ChooserManager.getChoosedOpenFolder(stage);
-        try {
-            updateDiagram();
-        } catch (URISyntaxException | JAXBException | FileNotFoundException e) {
-            UIHelper.createAndShowAlert(Alert.AlertType.ERROR, UIAlertMsg.ERROR_READING_ESL);
-        }
+
+        updateDiagramAndHandleExceptions();
     }
 
     /**
@@ -435,28 +427,89 @@ public class MainController extends Controller {
         updateDiagramAndHandleExceptions();
     }
 
+    /**
+     * Gets called within the click on the JSON Export button
+     * Exports all the data in JSON Format
+     */
     public void jsonExport() {
+        if (!readAllESLData()) {
+            return;
+        }
+
+        //gets the file to save the json data
         final File chosenJsonFileLocation = ChooserManager.getChoosedSaveFile(stage, Extensions.JSON);
+
+        //creating the list for the export objects
         final List<JSONExport> jsonExportData = new ArrayList<>();
 
-        final List<Zaehlerstand> producedZaehlerstandList = new ArrayList<>();
-        final List<Zaehlerstand> purchasedZaehlerstandList = new ArrayList<>();
+        //creating the Zaehlerstand arrays to be able to store each value
+        final Zaehlerstand[] producedZaehlerstandArray = new Zaehlerstand[ESLManager.PRODUCED.size()];
+        final Zaehlerstand[] purchasedZaehlerstandArray = new Zaehlerstand[ESLManager.PURCHASED.size()];
 
+        //counter for the arrays
+        int producedCounter = 0;
+        int purchasedCounter = 0;
+
+        //filling the data
         for (Map.Entry<LocalDateTime, BigDecimal> producedESLEntrySet : ESLManager.PRODUCED.entrySet()) {
-            producedZaehlerstandList.add(new Zaehlerstand(producedESLEntrySet.getKey(),producedESLEntrySet.getValue().doubleValue()));
+            producedZaehlerstandArray[producedCounter++] = new Zaehlerstand(producedESLEntrySet.getKey(), producedESLEntrySet.getValue().doubleValue());
         }
 
         for (Map.Entry<LocalDateTime, BigDecimal> purchasedESLEntrySet : ESLManager.PURCHASED.entrySet()) {
-            purchasedZaehlerstandList.add(new Zaehlerstand(purchasedESLEntrySet.getKey(),purchasedESLEntrySet.getValue().doubleValue()));
+            purchasedZaehlerstandArray[purchasedCounter++] = new Zaehlerstand(purchasedESLEntrySet.getKey(), purchasedESLEntrySet.getValue().doubleValue());
         }
 
-        jsonExportData.add(new JSONExport(SensorId.ID735, (Zaehlerstand[]) producedZaehlerstandList.toArray()));
-        jsonExportData.add(new JSONExport(SensorId.ID742, (Zaehlerstand[]) purchasedZaehlerstandList.toArray()));
+        jsonExportData.add(new JSONExport(SensorId.ID735, producedZaehlerstandArray));
+        jsonExportData.add(new JSONExport(SensorId.ID742, purchasedZaehlerstandArray));
 
-       JSON_FILE_MANAGER.write(jsonExportData,chosenJsonFileLocation.getAbsolutePath());
+        //writing json
+        JSON_FILE_MANAGER.write(jsonExportData, chosenJsonFileLocation.getAbsolutePath());
     }
 
-    public void csvExport(ActionEvent actionEvent) {
+    /**
+     * Gets called within the click on the CSV Export button
+     * Exports all the data in CSV Format
+     * Creates two files for each relevant sensor ID
+     */
+    public void csvExport() {
+        if (!readAllESLData()) {
+            return;
+        }
 
+        //get folder to save the csv export
+        final File chosenCSVExportFolder = ChooserManager.getChoosedOpenFolder(stage);
+
+        //creating the lists with the export objects
+        final List<CSVExport> producedCSVExportList = new ArrayList<>();
+        final List<CSVExport> purchasedCSVExportList = new ArrayList<>();
+
+        //filling the lists
+        for (Map.Entry<LocalDateTime, BigDecimal> producedESLEntrySet : ESLManager.PRODUCED.entrySet()) {
+            producedCSVExportList.add(new CSVExport(producedESLEntrySet.getKey(), producedESLEntrySet.getValue()));
+        }
+
+        for (Map.Entry<LocalDateTime, BigDecimal> purchasedESLEntrySet : ESLManager.PURCHASED.entrySet()) {
+            purchasedCSVExportList.add(new CSVExport(purchasedESLEntrySet.getKey(), purchasedESLEntrySet.getValue()));
+        }
+
+        //writing the files
+        CSV_FILE_MANAGER.write(producedCSVExportList, chosenCSVExportFolder.getAbsolutePath() + "/" + SensorId.ID735);
+        CSV_FILE_MANAGER.write(purchasedCSVExportList, chosenCSVExportFolder.getAbsolutePath() + "/" + SensorId.ID742);
+    }
+
+    /**
+     * readsAllESLData for the export
+     *
+     * @return if the operation was successful
+     */
+    private boolean readAllESLData() {
+        try {
+            ESL_MANAGER.readFolder(getESLFolder(), null, null, true);
+        } catch (JAXBException | URISyntaxException e) {
+            UIHelper.createAndShowAlert(Alert.AlertType.ERROR, UIAlertMsg.ERROR_READING_ESL);
+            return false;
+        }
+
+        return true;
     }
 }

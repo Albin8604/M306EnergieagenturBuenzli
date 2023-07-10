@@ -42,7 +42,7 @@
                                     <left>
                                         <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" BorderPane.alignment="CENTER">
                                             <center>
-                                                <HBox alignment="CENTER" BorderPane.alignment="CENTER">
+                                                <HBox alignment="TOP_CENTER" prefHeight="74.0" prefWidth="220.0" BorderPane.alignment="CENTER">
                                                     <children>
                                                         <Label text="From: " />
                                                         <DatePicker fx:id="fromDatePicker" onAction="#changeFromDate" />
@@ -87,7 +87,7 @@
                                                 </HBox>
                                             </left>
                                             <center>
-                                                <HBox alignment="CENTER" BorderPane.alignment="CENTER">
+                                                <HBox alignment="TOP_CENTER" BorderPane.alignment="CENTER">
                                                     <children>
                                                         <Label text="To: " />
                                                         <DatePicker fx:id="toDatePicker" onAction="#changeToDate" />

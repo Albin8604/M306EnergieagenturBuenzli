@@ -18,23 +18,34 @@ public class JSONExport {
     }
 
     /**
-     * sensorId getter
-     * @return sensorId
+     * gets the value of sensorId
      */
     public String getSensorId() {
         return sensorId;
     }
 
-
-    public JSONExport setSensorId(SensorId sensorId) {
-        this.sensorId = sensorId.name();
+    /**
+     * sets the value of sensorId
+     *
+     * @return JSONExport
+     */
+    public JSONExport setSensorId(String sensorId) {
+        this.sensorId = sensorId;
         return this;
     }
 
+    /**
+     * gets the value of data
+     */
     public Zaehlerstand[] getData() {
         return data;
     }
 
+    /**
+     * sets the value of data
+     *
+     * @return JSONExport
+     */
     public JSONExport setData(Zaehlerstand[] data) {
         this.data = data;
         return this;

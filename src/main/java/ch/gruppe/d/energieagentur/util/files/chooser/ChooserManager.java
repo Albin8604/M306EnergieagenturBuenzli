@@ -8,7 +8,16 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * This class is used to manage the chooser in javafx
+ */
 public class ChooserManager {
+    /**
+     * Opens the file chooser dialog with given extensions and returns the selected file
+     * @param stage the stage on which the dialog should be shown
+     * @param extensions extensions of the file
+     * @return chosen file
+     */
     public static File getChoosedSaveFile(Stage stage, Extensions... extensions) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().addAll(
@@ -26,23 +35,11 @@ public class ChooserManager {
         return file;
     }
 
-    public static File getChoosedOpenFile(Stage stage, Extensions... extensions) {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.getExtensionFilters().addAll(
-                Arrays.stream(extensions)
-                        .map(Extensions::getExtensionFilter
-                        ).toList()
-        );
-
-        File file = fileChooser.showOpenDialog(stage);
-
-        if (file == null) {
-            throw new RuntimeException("File could not be opened");
-        }
-
-        return file;
-    }
-
+    /**
+     * Opens the folder chooser dialog and returns the selected folder
+     * @param stage the stage on which the dialog should be shown
+     * @return chosen folder
+     */
     public static File getChoosedOpenFolder(Stage stage) {
         DirectoryChooser directoryChooser = new DirectoryChooser();
 
@@ -50,23 +47,6 @@ public class ChooserManager {
 
         if (file == null) {
             throw new RuntimeException("File could not be opened");
-        }
-
-        return file;
-    }
-
-    public static List<File> getChoosedOpenFiles(Stage stage, Extensions... extensions) {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.getExtensionFilters().addAll(
-                Arrays.stream(extensions)
-                        .map(Extensions::getExtensionFilter
-                        ).toList()
-        );
-
-        List<File> file = fileChooser.showOpenMultipleDialog(stage);
-
-        if (file == null) {
-            throw new RuntimeException("Files could not be opened");
         }
 
         return file;

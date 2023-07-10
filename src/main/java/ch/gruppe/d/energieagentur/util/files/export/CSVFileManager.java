@@ -17,7 +17,11 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 
-//https://www.baeldung.com/opencsv
+/**
+ * Generic CSVFileManager class used for reading and writing CSV Files
+ * @param <T> objects to be written or read
+ * <a href="https://www.baeldung.com/opencsv">source</a>
+ */
 public class CSVFileManager<T> implements ExportFileManager<T> {
     private static final char SEPARATOR = ',';
     private final Class<T> tClass;
@@ -28,7 +32,7 @@ public class CSVFileManager<T> implements ExportFileManager<T> {
 
     @Override
     public List<T> read(File file) {
-        List<T> objList = new ArrayList<>();
+        List<T> objList;
 
         CsvToBeanBuilder<T> beanBuilder;
         try {
@@ -41,10 +45,7 @@ public class CSVFileManager<T> implements ExportFileManager<T> {
 
             // build methods returns a list of Beans
 
-            beanBuilder.build().parse().forEach(e -> {
-                System.out.println(e);
-                objList.add(e);
-            });
+            objList = new ArrayList<>(beanBuilder.build().parse());
 
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
@@ -64,11 +65,7 @@ public class CSVFileManager<T> implements ExportFileManager<T> {
                     .build();
 
             statefulBeanToCsv.write(data);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (CsvRequiredFieldEmptyException e) {
-            throw new RuntimeException(e);
-        } catch (CsvDataTypeMismatchException e) {
+        } catch (IOException | CsvRequiredFieldEmptyException | CsvDataTypeMismatchException e) {
             throw new RuntimeException(e);
         }
 

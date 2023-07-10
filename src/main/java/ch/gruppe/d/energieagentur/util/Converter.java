@@ -9,60 +9,17 @@ import java.util.Date;
 
 import static ch.gruppe.d.energieagentur.util.Date.Formatter.*;
 
+/**
+ * This class is used to make the conversion from one thing to another easier
+ */
 public class Converter {
-    public static LocalDateTime dateToLocalDateTime(Date dateToConvert) {
-        return dateToConvert.toInstant()
-                .atZone(ZoneId.systemDefault())
-                .toLocalDateTime();
-    }
 
-    public static LocalDate dateToLocalDate(Date dateToConvert) {
-        return dateToConvert.toInstant()
-                .atZone(ZoneId.systemDefault())
-                .toLocalDate();
-    }
-
-    public static Date LocalDateTimetoDate(LocalDateTime localDateTimeToConvert) {
-        return Date.from(localDateTimeToConvert.atZone(ZoneId.systemDefault()).toInstant());
-    }
-
-    public static LocalDate convertTextToLocalDate(String text) {
-        return LocalDate.parse(text, DateTimeFormatter.ofPattern(DATE_FORMAT));
-    }
-
-    public static LocalTime convertTextToLocalTime(String text) {
-        return LocalTime.parse(text, DateTimeFormatter.ofPattern(TIME_FORMAT));
-    }
-
-    public static LocalDateTime convertTextToLocalDateTime(String text) {
-        return LocalDateTime.parse(text, DateTimeFormatter.ofPattern(DATE_TIME_FORMAT));
-    }
-
-    public static String convertLocalDateToText(LocalDate localDate) {
-        return localDate.format(DateTimeFormatter.ofPattern(DATE_FORMAT));
-    }
-
-    public static String convertLocalTimeToText(LocalTime localTime) {
-        return localTime.format(DateTimeFormatter.ofPattern(TIME_FORMAT));
-    }
-
-    public static String convertLocalDateToText(LocalDateTime localDateTime) {
-        return localDateTime.format(DateTimeFormatter.ofPattern(DATE_TIME_FORMAT));
-    }
-
+    /**
+     * Converts LocalDateTime to milliseconds
+     * @param localDateTime given time
+     * @return milliseconds
+     */
     public static long convertLocalDateTimeToMillis(LocalDateTime localDateTime){
         return localDateTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
-    }
-
-    public static long convertLocalDateToMillis(LocalDate localDate){
-        return convertLocalDateTimeToMillis(localDate.atStartOfDay());
-    }
-
-    public static boolean convertByteToBoolean(byte b) {
-        return b == 1;
-    }
-
-    public static byte convertBooleanToByte(boolean b) {
-        return (byte) (b ? 1 : 0);
     }
 }
