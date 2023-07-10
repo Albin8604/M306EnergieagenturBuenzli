@@ -43,6 +43,10 @@ public class SDATManager implements FileManager {
 
         //going through all files
         for (File file : files) {
+            if (file.getName().toUpperCase().contains("DS_Store".toUpperCase())){
+                continue;
+            }
+
             SdatParser sdatParser = new SdatParser(file);
 
             //setting first parameters to be able to check if this file can be skipped

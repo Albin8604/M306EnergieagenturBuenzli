@@ -45,7 +45,6 @@ public class SdatParser {
             // Get the first MeteringData element
             dataElement = (Element) dataList.item(0);
         } catch (ParserConfigurationException | SAXException | IOException e) {
-
             throw new IllegalArgumentException(e);
         }
     }

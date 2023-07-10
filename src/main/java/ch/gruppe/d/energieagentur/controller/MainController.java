@@ -109,6 +109,9 @@ public class MainController extends Controller {
                 fileManager instanceof ESLManager ? ESLManager.purchased : SDATManager.purchased,
                 isKwH
         ));
+
+        System.out.println(SDATManager.produced.size());
+        System.out.println(SDATManager.purchased.size());
     }
 
     /**
@@ -341,8 +344,8 @@ public class MainController extends Controller {
      * This Method sets the Selected Date to the next day
      */
     public void dayForward() {
-        fromDayForward();
-        toDayForward();
+        fromDatePicker.setValue(fromDatePicker.getValue().plusDays(1));
+        toDatePicker.setValue(toDatePicker.getValue().plusDays(1));
 
         updateDiagramAndHandleExceptions();
     }
@@ -351,8 +354,8 @@ public class MainController extends Controller {
      * This Method sets the Selected Date to the previous day
      */
     public void dayBackward() {
-        fromDayBackward();
-        toDayBackward();
+        fromDatePicker.setValue(fromDatePicker.getValue().minusDays(1));
+        toDatePicker.setValue(toDatePicker.getValue().minusDays(1));
 
         updateDiagramAndHandleExceptions();
     }
@@ -361,18 +364,19 @@ public class MainController extends Controller {
      * This Method sets the Selected Date to the next month
      */
     public void monthForward() {
-        fromMonthForward();
-        toMonthForward();
+        //resolving bug this way
+        fromDatePicker.setValue(fromDatePicker.getValue().plusMonths(2));
+        toDatePicker.setValue(toDatePicker.getValue().plusMonths(2));
 
-        updateDiagramAndHandleExceptions();
+        monthBackward();
     }
 
     /**
      * This Method sets the Selected Date to the previous month
      */
     public void monthBackward() {
-        fromMonthBackward();
-        toMonthBackward();
+        fromDatePicker.setValue(fromDatePicker.getValue().minusMonths(1));
+        toDatePicker.setValue(toDatePicker.getValue().minusMonths(1));
 
         updateDiagramAndHandleExceptions();
     }
