@@ -45,10 +45,6 @@ import static ch.gruppe.d.energieagentur.Config.START_TO_DATE;
  * This class is used as a Controller for the Main View
  */
 public class MainController extends Controller {
-    //diagram stuff
-    private static final CategoryAxis X_AXIS = new CategoryAxis();
-    private static final NumberAxis Y_AXIS = new NumberAxis();
-
     //fxml objects
     public StackPane mainStackPane;
     public Rectangle selectRect;
@@ -75,9 +71,6 @@ public class MainController extends Controller {
         try {
             valuesComboBox.setItems(VALUES_MODEL_OBSERVABLE_LIST);
             valuesComboBox.getSelectionModel().selectFirst();
-
-            X_AXIS.setLabel("Datum");
-            X_AXIS.setAnimated(false);
 
             fromDatePicker.setValue(START_FROM_DATE);
             toDatePicker.setValue(START_TO_DATE);
