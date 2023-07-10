@@ -29,9 +29,20 @@ public class ValueRow {
     @XmlAttribute(name = "status")
     private String status;
 
+    /**
+     * Default constructor
+     */
     public ValueRow() {
     }
 
+    /**
+     * Constructor
+     *
+     * @param obis            String
+     * @param valueTimeStamp  LocalDateTime
+     * @param value           BigDecimal
+     * @param status          String
+     */
     public ValueRow(String obis, LocalDateTime valueTimeStamp, BigDecimal value, String status) {
         this.obis = obis;
         this.valueTimeStamp = valueTimeStamp;
@@ -39,42 +50,91 @@ public class ValueRow {
         this.status = status;
     }
 
+    /**
+     * Constructor
+     *
+     * @return String
+     */
     public String getObis() {
         return obis;
     }
 
+    /**
+     * Constructor
+     *
+     * @param obis String
+     * @return ValueRow
+     */
     public ValueRow setObis(String obis) {
         this.obis = obis;
         return this;
     }
 
+    /**
+     * Constructor
+     *
+     * @return LocalDateTime
+     */
     public LocalDateTime getValueTimeStamp() {
         return valueTimeStamp;
     }
 
+    /**
+     * Constructor
+     *
+     * @param valueTimeStamp LocalDateTime
+     * @return ValueRow
+     */
     public ValueRow setValueTimeStamp(LocalDateTime valueTimeStamp) {
         this.valueTimeStamp = valueTimeStamp;
         return this;
     }
 
+    /**
+     * Constructor
+     *
+     * @return BigDecimal
+     */
     public BigDecimal getValue() {
         return value;
     }
 
+    /**
+     * Constructor
+     *
+     * @param value BigDecimal
+     * @return ValueRow
+     */
     public ValueRow setValue(BigDecimal value) {
         this.value = value;
         return this;
     }
 
+    /**
+     * Constructor
+     *
+     * @return String
+     */
     public String getStatus() {
         return status;
     }
 
+    /**
+     * Constructor
+     *
+     * @param status String
+     * @return ValueRow
+     */
     public ValueRow setStatus(String status) {
         this.status = status;
         return this;
     }
 
+    /**
+     * Constructor
+     *
+     * @return String
+     */
     @Override
     public String toString() {
         return "ValueRow{" +

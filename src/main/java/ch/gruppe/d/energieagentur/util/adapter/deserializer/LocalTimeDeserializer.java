@@ -11,7 +11,20 @@ import com.fasterxml.jackson.databind.node.TextNode;
 import java.io.IOException;
 import java.time.LocalTime;
 
+/**
+ * This class is used to deserialize a LocalTime
+ */
 public class LocalTimeDeserializer extends JsonDeserializer<LocalTime> {
+
+    /**
+     * Deserializes a LocalTime
+     *
+     * @param jsonParser             jsonParser
+     * @param deserializationContext deserializationContext
+     * @return LocalTime
+     * @throws IOException          IOException
+     * @throws JacksonException     JacksonException
+     */
     @Override
     public LocalTime deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JacksonException {
         TextNode node = jsonParser.getCodec().readTree(jsonParser);

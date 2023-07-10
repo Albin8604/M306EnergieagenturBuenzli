@@ -22,10 +22,20 @@ public class CSVFileManager<T> implements ExportFileManager<T> {
     private static final char SEPARATOR = ',';
     private final Class<T> tClass;
 
+    /**
+     * Constructor
+     *
+     * @param tClass Class<T>
+     */
     public CSVFileManager(Class<T> tClass) {
         this.tClass = tClass;
     }
 
+    /**
+     * Write a list of objects to a csv file
+     *
+     * @param file String
+     */
     @Override
     public List<T> read(File file) {
         List<T> objList = new ArrayList<>();
@@ -53,6 +63,12 @@ public class CSVFileManager<T> implements ExportFileManager<T> {
         return objList;
     }
 
+    /**
+     * Write a list of objects to a csv file
+     *
+     * @param data     List<T>
+     * @param fileName String
+     */
     @Override
     public void write(List<T> data, String fileName) {
 

@@ -8,14 +8,27 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * This class is a CSV file manager
+ */
 public class CSVFileManagerHandMade<T> implements ExportFileManager<T> {
 
     private final Class<T> tClass;
 
+    /**
+     * Constructor
+     *
+     * @param tClass Class<T>
+     */
     public CSVFileManagerHandMade(Class<T> tClass) {
         this.tClass = tClass;
     }
 
+    /**
+     * Write a list of objects to a csv file
+     *
+     * @param file String
+     */
     @Override
     public List<T> read(File file) {
         List<T> objList = new ArrayList<>();
@@ -42,6 +55,12 @@ public class CSVFileManagerHandMade<T> implements ExportFileManager<T> {
         return objList;
     }
 
+    /**
+     * Write a list of objects to a csv file
+     *
+     * @param data List<T>
+     * @param path String
+     */
     @Override
     public void write(List<T> data, String path) {
         BufferedWriter writer = null;

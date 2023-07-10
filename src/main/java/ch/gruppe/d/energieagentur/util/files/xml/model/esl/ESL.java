@@ -17,32 +17,68 @@ public class ESL {
     @XmlElement(name = "Meter", type = Meter.class)
     private Meter meter;
 
+    /**
+     * Default constructor
+     */
     public ESL() {
     }
 
+    /**
+     * Constructor
+     *
+     * @param header Header
+     * @param meter  Meter
+     */
     public ESL(Header header, Meter meter) {
         this.header = header;
         this.meter = meter;
     }
 
+    /**
+     * Constructor
+     *
+     * @return Header
+     */
     public Header getHeader() {
         return header;
     }
 
+    /**
+     * Constructor
+     *
+     * @param header Header
+     * @return ESL
+     */
     public ESL setHeader(Header header) {
         this.header = header;
         return this;
     }
 
+    /**
+     * Constructor
+     *
+     * @return Meter
+     */
     public Meter getMeter() {
         return meter;
     }
 
+    /**
+     * Constructor
+     *
+     * @param meter Meter
+     * @return ESL
+     */
     public ESL setMeter(Meter meter) {
         this.meter = meter;
         return this;
     }
 
+    /**
+     * Constructor
+     *
+     * @return String
+     */
     @Override
     public String toString() {
         return "ESLBillingData{" +

@@ -23,32 +23,68 @@ public class TimePeriod {
     @XmlElement(name = "ValueRow")
     private List<ValueRow> valueRowList;
 
+    /**
+     * Default constructor
+     */
     public TimePeriod() {
     }
 
+    /**
+     * Constructor
+     *
+     * @param end          LocalDateTime
+     * @param valueRowList List<ValueRow>
+     */
     public TimePeriod(LocalDateTime end, List<ValueRow> valueRowList) {
         this.end = end;
         this.valueRowList = valueRowList;
     }
 
+    /**
+     * Constructor
+     *
+     * @return LocalDateTime
+     */
     public LocalDateTime getEnd() {
         return end;
     }
 
+    /**
+     * Constructor
+     *
+     * @param end LocalDateTime
+     * @return TimePeriod
+     */
     public TimePeriod setEnd(LocalDateTime end) {
         this.end = end;
         return this;
     }
 
+    /**
+     * Constructor
+     *
+     * @return List<ValueRow>
+     */
     public List<ValueRow> getValueRowList() {
         return valueRowList;
     }
 
+    /**
+     * Constructor
+     *
+     * @param valueRowList List<ValueRow>
+     * @return TimePeriod
+     */
     public TimePeriod setValueRowList(List<ValueRow> valueRowList) {
         this.valueRowList = valueRowList;
         return this;
     }
 
+    /**
+     * Constructor
+     *
+     * @return String
+     */
     @Override
     public String toString() {
         return "TimePeriod{" +

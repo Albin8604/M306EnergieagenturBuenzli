@@ -80,6 +80,12 @@ public class SDATManager implements FileManager {
         }
     }
 
+    /**
+     * Converts the given interval to minutes
+     *
+     * @param interval given interval
+     * @return interval in minutes
+     */
     private int convertToMin(String interval) {
         String unit = extractUnit(interval);
         String value = interval.replaceAll(unit, "");
@@ -91,6 +97,12 @@ public class SDATManager implements FileManager {
         throw new RuntimeException("Unit " + unit + " not supported");
     }
 
+    /**
+     * Extracts the unit from the given interval
+     *
+     * @param interval given interval
+     * @return unit
+     */
     private String extractUnit(String interval) {
         char[] chars = interval.toCharArray();
 

@@ -7,6 +7,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * This class writes the assets in an enum
+ */
 public class WriteAssets {
 
     private static final String ENUM_PREFIX = "" +
@@ -42,10 +45,21 @@ public class WriteAssets {
     private static final String PATH_TO_ENUM = "src/main/java/ch/gruppe/d/energieagentur/assets/Assets.java";
     private static final String PATH_TO_RESOURCES = "src/main/resources";
 
+    /**
+     * This method writes the assets in an enum
+     *
+     * @param args String
+     * @throws IOException IOException
+     */
     public static void main(String[] args) {
         new WriteAssets().run();
     }
 
+    /**
+     * This method writes the assets in an enum
+     *
+     * @throws IOException IOException
+     */
     private void run() {
         File resourcesFolder = new File(PATH_TO_RESOURCES);
 
@@ -74,6 +88,11 @@ public class WriteAssets {
         throw new IllegalArgumentException("Wrong path (" + PATH_TO_RESOURCES + ") to resources");
     }
 
+    /**
+     * This method extracts the package name
+     *
+     * @return String
+     */
     private void addFilesToStringBuilder(List<File> filesToBeAdded, String folder, StringBuilder stringBuilder) {
         for (File file : filesToBeAdded) {
             if (file.isDirectory() && !file.getName().toUpperCase().contains("ESL-FILES") && !file.getName().toUpperCase().contains("SDAT-FILES")) {
@@ -94,6 +113,12 @@ public class WriteAssets {
         }
     }
 
+    /**
+     * This method writes the assets in an enum
+     *
+     * @param content String
+     * @throws IOException IOException
+     */
     private void writeInEnum(String content) throws IOException {
         FileWriter fileWriter = new FileWriter(PATH_TO_ENUM);
 
@@ -103,10 +128,21 @@ public class WriteAssets {
         fileWriter.close();
     }
 
+    /**
+     * This method writes the assets in an enum
+     *
+     * @param fileName String
+     * @return String
+     */
     private String prepareAttributes(String fileName, String fileNameWithExtension, String folder) {
         return "    " + capitalize(fileName) + "(\"" + folder + fileNameWithExtension + "\")";
     }
 
+    /**
+     * This method extracts the package name
+     *
+     * @return String
+     */
     private static String extractPackage() {
         String extractedPackage;
 
@@ -121,6 +157,12 @@ public class WriteAssets {
         return extractedPackage;
     }
 
+    /**
+     * This method capitalizes the first letter
+     *
+     * @param str String
+     * @return String
+     */
     private String capitalize(String str) {
         if (str == null || str.isEmpty()) {
             return str;

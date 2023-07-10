@@ -6,7 +6,7 @@ package ch.gruppe.d.energieagentur.model.uiModel;
 public class ValuesModel {
     private String name;
     private int value;
-
+    
     public ValuesModel(String name, int value) {
         this.name = name;
         this.value = value;

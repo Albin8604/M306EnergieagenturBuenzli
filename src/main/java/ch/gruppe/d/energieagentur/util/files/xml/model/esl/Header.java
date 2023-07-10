@@ -26,10 +26,20 @@ public class Header {
     @XmlAttribute(name = "swSystemNameTo")
     private String swSystemNameTo;
 
-
+    /**
+     * Default constructor
+     */
     public Header() {
     }
 
+    /**
+     * Constructor
+     *
+     * @param version          String
+     * @param created          LocalDateTime
+     * @param swSystemNameFrom String
+     * @param swSystemNameTo   String
+     */
     public Header(String version, LocalDateTime created, String swSystemNameFrom, String swSystemNameTo) {
         this.version = version;
         this.created = created;
@@ -37,37 +47,81 @@ public class Header {
         this.swSystemNameTo = swSystemNameTo;
     }
 
+    /**
+     * Constructor
+     *
+     * @return String
+     */
     public String getVersion() {
         return version;
     }
 
+    /**
+     * Constructor
+     *
+     * @param version String
+     * @return Header
+     */
     public Header setVersion(String version) {
         this.version = version;
         return this;
     }
 
+    /**
+     * Constructor
+     *
+     * @return LocalDateTime
+     */
     public LocalDateTime getCreated() {
         return created;
     }
 
+    /**
+     * Constructor
+     *
+     * @param created LocalDateTime
+     * @return Header
+     */
     public Header setCreated(LocalDateTime created) {
         this.created = created;
         return this;
     }
 
+    /**
+     * Constructor
+     *
+     * @return String
+     */
     public String getSwSystemNameFrom() {
         return swSystemNameFrom;
     }
 
+    /**
+     * Constructor
+     *
+     * @param swSystemNameFrom String
+     * @return Header
+     */
     public Header setSwSystemNameFrom(String swSystemNameFrom) {
         this.swSystemNameFrom = swSystemNameFrom;
         return this;
     }
 
+    /**
+     * Constructor
+     *
+     * @return String
+     */
     public String getSwSystemNameTo() {
         return swSystemNameTo;
     }
 
+    /**
+     * Constructor
+     *
+     * @param swSystemNameTo String
+     * @return Header
+     */
     public Header setSwSystemNameTo(String swSystemNameTo) {
         this.swSystemNameTo = swSystemNameTo;
         return this;

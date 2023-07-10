@@ -8,7 +8,18 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 
+/**
+ * This class is a helper for FXML files
+ */
 public class FXMLHelper {
+
+    /**
+     * This method loads a FXML file
+     *
+     * @param asset Assets
+     * @param <T>   T
+     * @return T
+     */
     public static <T> T load(Assets asset) {
         FXMLLoader fxmlLoader = new FXMLLoader(asset.asUrl());
         T result;
@@ -28,7 +39,13 @@ public class FXMLHelper {
         return result;
     }
 
-
+    /**
+     * This method loads a FXML file
+     *
+     * @param asset Assets
+     * @param <T>  T
+     * @return T
+     */
     public static <T> T loadModelWithoutController(Assets asset) {
         FXMLLoader fxmlLoader = new FXMLLoader(asset.asUrl());
         T result;
@@ -42,6 +59,13 @@ public class FXMLHelper {
         return result;
     }
 
+    /**
+     * This method loads a FXML file
+     *
+     * @param file String
+     * @param <T>  T
+     * @return T
+     */
     public static <T> T loadModelWithoutController(String file) {
         FXMLLoader fxmlLoader = null;
         try {

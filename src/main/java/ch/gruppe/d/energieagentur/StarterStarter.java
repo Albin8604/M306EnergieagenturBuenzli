@@ -1,5 +1,8 @@
 package ch.gruppe.d.energieagentur;
 
+/**
+ * This class is a starter
+ */
 public class StarterStarter {
     /*
     private static final List<Player> PLAYER_DATA = List.of(
@@ -32,6 +35,11 @@ public class StarterStarter {
 
      */
 
+    /**
+     * This method starts the application
+     *
+     * @param args String[]
+     */
     public static void main(String[] args) {
         Starter.main(args);
     }

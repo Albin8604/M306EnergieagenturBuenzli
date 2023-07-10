@@ -34,6 +34,11 @@ public class ESLManager implements FileManager {
     public static final Map<LocalDateTime, BigDecimal> PRODUCED = new TreeMap<>();
     public static final Map<LocalDateTime, BigDecimal> PURCHASED = new TreeMap<>();
 
+    /**
+     * Creates ESL objects from files in given folder
+     *
+     * @param eslFolder given ESL folder
+     */
     public void readFolder(File eslFolder, LocalDate from, LocalDate to) throws JAXBException {
         if (eslFolder == null || !eslFolder.isDirectory() || eslFolder.listFiles() == null || Objects.requireNonNull(eslFolder.listFiles()).length == 0) {
             throw new RuntimeException("Error reading folder");
@@ -78,6 +83,15 @@ public class ESLManager implements FileManager {
         }
     }
 
+    /**
+     * Adds value to map
+     *
+     * @param date      date of value
+     * @param tempValue temporary value
+     * @param value     value to add
+     * @param map       map to add value to
+     * @return value
+     */
     private BigDecimal addElementToMap(LocalDateTime date, BigDecimal tempValue, BigDecimal value, Map<LocalDateTime, BigDecimal> map) {
         if (tempValue != null) {
             map.put(date, tempValue.add(value));

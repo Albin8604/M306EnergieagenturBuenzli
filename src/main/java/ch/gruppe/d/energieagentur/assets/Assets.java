@@ -2,6 +2,9 @@ package ch.gruppe.d.energieagentur.assets;
 
 import java.net.URL;
 
+/**
+ * This enum is used to manage all the assets
+ */
 public enum Assets {
 
     ESLFiles("ESL-Files"),
@@ -14,10 +17,16 @@ public enum Assets {
     ;
     final String filename;
 
+    /**
+     * @param filename the filename of the asset
+     */
     Assets(String filename) {
         this.filename = filename;
     }
 
+    /**
+     * @return the filename of the asset
+     */
     public URL asUrl() {
         return Assets.class.getClassLoader().getResource(filename);
     }

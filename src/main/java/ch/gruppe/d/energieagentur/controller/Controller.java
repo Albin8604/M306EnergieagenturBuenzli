@@ -9,8 +9,14 @@ import javafx.collections.ObservableList;
 
 import java.io.File;
 
+/**
+ * This class is used as a Controller for the MainController
+ */
 public abstract class Controller {
-    //Values of the Values Combo Box
+
+    /**
+     * This ObservableList is used to store the values for the valuesComboBox in the MainController
+     */
     protected static final ObservableList<ValuesModel> VALUES_MODEL_OBSERVABLE_LIST = FXCollections.observableArrayList(
             new ValuesModel("Relative Wert [kWh]", 1),
             new ValuesModel("Relative Wert [kW]", 2),

@@ -17,6 +17,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * This class is used to parse the sdat file
+ */
 public class SdatParser {
     private final Document document;
 
@@ -24,6 +27,12 @@ public class SdatParser {
         this(new File(filePath));
     }
 
+
+    /**
+     * Creates a SdatParser object from a given file
+     *
+     * @param file given file
+     */
     public SdatParser(File file) {
         //Sets Up the DocumentBuilderFactory and dataElement
         try {
@@ -48,7 +57,11 @@ public class SdatParser {
     //dataElement for reference in xml file
     private final Element dataElement;
 
-    //Gets The DocumentID from the sdat file
+    /**
+     * Gets the IntervalStartTime from the sdat file
+     *
+     * @return IntervalStartTime
+     */
     public String getDocumentID() {
         //DocumentID
         String documentId = ((Element) (
@@ -59,7 +72,11 @@ public class SdatParser {
         return documentId.substring(documentId.length() - 3);
     }
 
-    //Gets The Observations from the sdat file
+    /**
+     * Gets the IntervalStartTime from the sdat file
+     *
+     * @return IntervalStartTime
+     */
     public Map<Integer, BigDecimal> getObservation() {
         //Observation
 
@@ -77,7 +94,11 @@ public class SdatParser {
         return observations;
     }
 
-    //Gets The Resolution from the sdat file
+    /**
+     * Gets the Resolution from the sdat file
+     *
+     * @return Resolution
+     */
     public String getResolution() {
         //resolution
         // Retrieve the Sender element within the HeaderInformation
@@ -88,22 +109,33 @@ public class SdatParser {
         return resolution + timeUnit;
     }
 
-    //Gets The Interval from the sdat file for use in getIntervalStartTime and getIntervalEndTime
+    /**
+     * Gets the MeteringPointID from the sdat file
+     *
+     * @return MeteringPointID
+     */
     private Element getInterval() {
         //Interval
         return (Element) dataElement.getElementsByTagName("rsm:Interval").item(0);
     }
 
-    //Gets The Interval StartTime from the sdat file
+    /**
+     * Gets the MeteringPointID from the sdat file
+     *
+     * @return MeteringPointID
+     */
     public LocalDateTime getIntervalStartTime() {
         //StartDateTime
         return LocalDateTime.parse(getInterval().getElementsByTagName("rsm:StartDateTime").item(0).getTextContent(), DateTimeFormatter.ofPattern(Config.SDAT_DATE_FORMAT));
     }
 
-    //Gets The Interval EndTime from the sdat file
+    /**
+     * Gets the MeteringPointID from the sdat file
+     *
+     * @return MeteringPointID
+     */
     public LocalDateTime getIntervalEndTime() {
         //EndDateTime
         return LocalDateTime.parse(getInterval().getElementsByTagName("rsm:EndDateTime").item(0).getTextContent(), DateTimeFormatter.ofPattern(Config.SDAT_DATE_FORMAT));
     }
-
 }
