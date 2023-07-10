@@ -9,7 +9,6 @@ module ICTSkills {
     requires java.xml.bind;
     requires jfxutils;
 
-    opens ch.gruppe.d.energieagentur.model;
     opens ch.gruppe.d.energieagentur.controller to javafx.fxml;
     opens ch.gruppe.d.energieagentur.util.files.xml.model.esl to java.xml.bind;
 
@@ -17,7 +16,6 @@ module ICTSkills {
     exports ch.gruppe.d.energieagentur.controller to javafx.fxml;
 
     exports ch.gruppe.d.energieagentur.model.uiModel;
-    exports ch.gruppe.d.energieagentur.model;
     exports ch.gruppe.d.energieagentur.util.files;
     exports ch.gruppe.d.energieagentur.util.files.xml.model.esl;
     exports ch.gruppe.d.energieagentur.util.files.xml.model.adapter;
